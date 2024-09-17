@@ -3,6 +3,7 @@
 #include "ui.h"
 
 int main() {
+	SetConsoleOutputCP(CP_UTF8);
 	int option;
 
 	showMenu();
