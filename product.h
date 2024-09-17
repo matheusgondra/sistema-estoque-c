@@ -8,4 +8,6 @@ typedef struct product {
 	char address[50];
 } Product;
 
+Product* create_product(int id, char *name, char *unit, char *address);
+
 #endif
