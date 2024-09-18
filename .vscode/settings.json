@@ -1,5 +1,6 @@
 {
 	"files.associations": {
+		"product.h": "c",
 		"utils.h": "c"
 	}
 }

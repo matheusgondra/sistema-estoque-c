@@ -3,6 +3,6 @@
 
 void config_output_windows();
 void timeout(int miliseconds);
-void get_input(char *input);
+void get_input(char *input, int size);
 
 #endif
