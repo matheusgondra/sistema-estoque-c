@@ -5,5 +5,6 @@
 
 void showMenu();
 void showProducts(Product **products);
+void showProduct(Product *product);
 
 #endif

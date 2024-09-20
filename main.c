@@ -19,6 +19,9 @@ int main() {
 	scanf("%d", &option);
 	fflush(stdin);
 
+	Product *product;
+	Product **product_list;
+
 	while (option != 0) {
 		switch (option) {
 			case REGISTER_PRODUCT:
@@ -35,7 +38,7 @@ int main() {
 				printf("Digite o endereço onde será armazenado o produto: \n");
 				get_input(address, sizeof(address));
 
-				Product *product = create_product(name, unit, address);
+				product = create_product(name, unit, address);
 				if (product == NULL) {
 					printf("Erro ao cadastrar produto\n");
 					exit(1);
@@ -55,21 +58,35 @@ int main() {
 				timeout(2000);
 				break;
 			case LOAD_PRODUCTS:
-				Product **products = stg_load_products();
-				if (products == NULL) {
+				product_list = stg_load_products();
+				if (product_list == NULL) {
 					printf("Nenhum produto cadastrado\n");
 					timeout(2000);
 					break;
 				}
 
-				showProducts(products);
+				showProducts(product_list);
 
 				timeout(2000);
 				system("pause");
 				break;
 			case SEARCH_PRODUCT:
-				printf("Buscar Item\n");
+				printf("Digite o id do produto:\n");
+				int id;
+				scanf("%d", &id);
+				fflush(stdin);
+
+				product = stg_find_product(id);
+				if (product == NULL) {
+					printf("Produto não encontrado\n");
+					timeout(2000);
+					break;
+				}
+
+				showProduct(product);
+
 				timeout(2000);
+				system("pause");
 				break;
 			default:
 				printf("Opção inválida\n");

@@ -37,3 +37,15 @@ void showProducts(Product **product) {
 
 	printf("*******************************\n");
 }
+
+void showProduct(Product *product) {
+	clear_terminal();
+
+	printf("*******************************\n");
+	printf("* ID: %d\n", product->id);
+	printf("* NOME: %s\n", product->name);
+	printf("* UNIDADE: %s\n", product->unit);
+	printf("* ENDEREÇO: %s\n", product->address);
+	printf("* QUANTIDADE: %d\n", product->quantity);
+	printf("*******************************\n");
+}

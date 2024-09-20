@@ -38,3 +38,13 @@ Product **stg_load_products() {
 	fclose(file);
 	return products;
 }
+
+Product *stg_find_product(int id) {
+	Product **product = stg_load_products();
+	for (int i = 0; product[i] != NULL; i++) {
+		if (product[i]->id == id) {
+			return product[i];
+		}
+	}
+	return NULL;
+}
