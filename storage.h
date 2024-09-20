@@ -6,5 +6,6 @@
 int stg_save_product(Product *product);
 Product **stg_load_products();
 Product *stg_find_product(int id);
+int stg_update_product_quantity(Product *product);
 
 #endif

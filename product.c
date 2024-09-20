@@ -2,6 +2,7 @@
 #include <string.h>
 #include <stdio.h>
 #include "product.h"
+#include "utils.h"
 
 int get_id() {
 	FILE *file;
@@ -46,3 +47,24 @@ Product* create_product(char *name, char *unit, char *address) {
 	return product;
 }
 
+void free_product(Product *product) {
+	free(product);
+}
+
+void free_products(Product **products) {
+	for (int i = 0; products[i] != NULL; i++) {
+		free(products[i]);
+	}
+	free(products);
+}
+
+int put_product_quantity(Product *product, int quantity) {
+	if (quantity <= 0) {
+		printf("Quantidade inválida\n");
+		return FALSE;
+	}
+
+	product->quantity += quantity;
+
+	return TRUE;
+}

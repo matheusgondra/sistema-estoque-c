@@ -3,6 +3,7 @@
 		"utils.h": "c",
 		"locale.h": "c",
 		"storage.h": "c",
-		"ui.h": "c"
+		"ui.h": "c",
+		"string.h": "c"
 	}
 }
