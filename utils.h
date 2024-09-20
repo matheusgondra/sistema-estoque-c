@@ -3,6 +3,7 @@
 
 #define TRUE 1
 #define FALSE 0
+#define SECOND 1000
 
 typedef int BOOL;
 
