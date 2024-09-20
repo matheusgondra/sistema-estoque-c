@@ -41,6 +41,7 @@ Product* create_product(char *name, char *unit, char *address) {
 	strcpy(product->name, name);
 	strcpy(product->unit, unit);
 	strcpy(product->address, address);
+	product->quantity = 0;
 
 	return product;
 }

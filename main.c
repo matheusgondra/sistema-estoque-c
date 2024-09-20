@@ -50,21 +50,25 @@ int main() {
 				timeout(2000);
 				break;
 			case 3:
-				printf("Exibir Itens\n");
-				FILE *file = fopen("products.csv", "r");
-				if (file == NULL) {
-					printf("Erro ao abrir arquivo\n");
-					exit(1);
+				printf("Saída de itens\n");
+
+				Product **products = stg_load_products();
+				if (products == NULL) {
+					printf("Nenhum produto cadastrado\n");
+					timeout(2000);
+					break;
 				}
 
-				char line[256];
-				printf("%-10s | %-10s | %-10s | %-10s | %-10s\n", "ID", "Nome", "Unidade", "Endereço", "Quantidade");
-				while (fgets(line, sizeof(line), file)) {
-					printf("%-10s", line);
+				for (int i = 0; products[i] != NULL; i++) {
+					printf("ID: %d\n", products[i]->id);
+					printf("Nome: %s\n", products[i]->name);
+					printf("Unidade: %s\n", products[i]->unit);
+					printf("Endereço: %s\n", products[i]->address);
+					printf("Quantidade: %d\n", products[i]->quantity);
+					printf("\n");
 				}
 
-				fclose(file);
-
+				
 				timeout(2000);
 				system("pause");
 				break;

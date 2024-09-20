@@ -1,6 +1,7 @@
 {
 	"files.associations": {
 		"utils.h": "c",
-		"locale.h": "c"
+		"locale.h": "c",
+		"storage.h": "c"
 	}
 }
