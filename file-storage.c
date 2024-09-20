@@ -1,4 +1,5 @@
 #include <stdio.h>
+#include <locale.h>
 #include "storage.h"
 
 int stg_save_product(Product *product) {

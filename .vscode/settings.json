@@ -1,6 +1,6 @@
 {
 	"files.associations": {
-		"product.h": "c",
-		"utils.h": "c"
+		"utils.h": "c",
+		"locale.h": "c"
 	}
 }

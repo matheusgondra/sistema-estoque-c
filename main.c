@@ -1,14 +1,14 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "utils.h"
-#include "ui.h"
 #include "product.h"
 #include "storage.h"
+#include "ui.h"
 
 int main() {
-	config_output_windows();
+	config_output();
 
-	int option;
+	int option = -1;
 
 	showMenu();
 	scanf("%d", &option);
@@ -18,15 +18,16 @@ int main() {
 		switch (option) {
 			case 1:
 				printf("Cadastrar Novo Item\n");
-				char name[100], unit[10], address[50];
+				char name[256], unit[10], address[50];
 
-				printf("Digite o nome do produto: \n");
+				printf("Digite o nome do produto \n");
 				get_input(name, sizeof(name));
+				printf("Nome do produto recebido: %s\n", name);
 
-				printf("Digite a unidade do produto: \n");
+				printf("Digite a unidade do produto \n");
 				get_input(unit, sizeof(unit));
 
-				printf("Digite o endereço do produto: \n");
+				printf("Digite o endereço onde será armazenado o produto: \n");
 				get_input(address, sizeof(address));
 
 				Product *product = create_product(name, unit, address);
@@ -34,7 +35,7 @@ int main() {
 					printf("Erro ao cadastrar produto\n");
 					exit(1);
 				}
-				printf("Produto criado com sucesso\n");
+
 				int result = stg_save_product(product);
 				if (!result) {
 					printf("Erro ao salvar produto\n");
@@ -42,7 +43,7 @@ int main() {
 				}
 
 				printf("Produto cadastrado com sucesso\n");
-				timeout(1000);
+				timeout(2000);
 				break;
 			case 2:
 				printf("Entrada de itens\n");
@@ -50,7 +51,22 @@ int main() {
 				break;
 			case 3:
 				printf("Exibir Itens\n");
+				FILE *file = fopen("products.csv", "r");
+				if (file == NULL) {
+					printf("Erro ao abrir arquivo\n");
+					exit(1);
+				}
+
+				char line[256];
+				printf("%-10s | %-10s | %-10s | %-10s | %-10s\n", "ID", "Nome", "Unidade", "Endereço", "Quantidade");
+				while (fgets(line, sizeof(line), file)) {
+					printf("%-10s", line);
+				}
+
+				fclose(file);
+
 				timeout(2000);
+				system("pause");
 				break;
 			case 4:
 				printf("Buscar Item\n");
@@ -58,6 +74,7 @@ int main() {
 				break;
 			default:
 				printf("Opção inválida\n");
+				timeout(2000);
 		}
 
 		showMenu();

@@ -18,7 +18,6 @@ void showMenu() {
   printf("* 4. Buscar Item              *\n");
   printf("* 0. Sair                     *\n");
   printf("*******************************\n");
-		printf("Digite a opção desejada: ");
-
+	printf("Digite a opção desejada: ");
 }
 
