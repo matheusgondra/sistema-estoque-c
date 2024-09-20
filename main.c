@@ -59,16 +59,8 @@ int main() {
 					break;
 				}
 
-				for (int i = 0; products[i] != NULL; i++) {
-					printf("ID: %d\n", products[i]->id);
-					printf("Nome: %s\n", products[i]->name);
-					printf("Unidade: %s\n", products[i]->unit);
-					printf("Endereço: %s\n", products[i]->address);
-					printf("Quantidade: %d\n", products[i]->quantity);
-					printf("\n");
-				}
+				showProducts(products);
 
-				
 				timeout(2000);
 				system("pause");
 				break;

@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "ui.h"
+#include "product.h"
 
 void clear_terminal() {
 	system("cls");
@@ -21,3 +22,18 @@ void showMenu() {
 	printf("Digite a opção desejada: ");
 }
 
+void showProducts(Product **product) {
+	clear_terminal();
+
+	printf("*******************************\n");
+	printf("*        LISTA DE ITENS       *\n");
+	printf("*******************************\n");
+	printf("* ID | NOME | UNIDADE | ENDEREÇO | QUANTIDADE\n");
+	printf("*******************************\n");
+
+	for (int i = 0; product[i] != NULL; i++) {
+		printf("* %d | %s | %s | %s | %d\n", product[i]->id, product[i]->name, product[i]->unit, product[i]->address, product[i]->quantity);
+	}
+
+	printf("*******************************\n");
+}

@@ -2,6 +2,7 @@
 	"files.associations": {
 		"utils.h": "c",
 		"locale.h": "c",
-		"storage.h": "c"
+		"storage.h": "c",
+		"ui.h": "c"
 	}
 }
