@@ -5,6 +5,11 @@
 #include "storage.h"
 #include "ui.h"
 
+#define REGISTER_PRODUCT 1
+#define PRODUCT_ENTRY 2
+#define LOAD_PRODUCTS 3
+#define SEARCH_PRODUCT 4
+
 int main() {
 	config_output();
 
@@ -16,7 +21,7 @@ int main() {
 
 	while (option != 0) {
 		switch (option) {
-			case 1:
+			case REGISTER_PRODUCT:
 				printf("Cadastrar Novo Item\n");
 				char name[256], unit[10], address[50];
 
@@ -45,13 +50,11 @@ int main() {
 				printf("Produto cadastrado com sucesso\n");
 				timeout(2000);
 				break;
-			case 2:
+			case PRODUCT_ENTRY:
 				printf("Entrada de itens\n");
 				timeout(2000);
 				break;
-			case 3:
-				printf("Saída de itens\n");
-
+			case LOAD_PRODUCTS:
 				Product **products = stg_load_products();
 				if (products == NULL) {
 					printf("Nenhum produto cadastrado\n");
@@ -64,7 +67,7 @@ int main() {
 				timeout(2000);
 				system("pause");
 				break;
-			case 4:
+			case SEARCH_PRODUCT:
 				printf("Buscar Item\n");
 				timeout(2000);
 				break;
