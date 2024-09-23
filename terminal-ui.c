@@ -33,7 +33,7 @@ void showProducts(Product **product) {
 	printf("*******************************\n");
 
 	for (int i = 0; product[i] != NULL; i++) {
-		printf("* %d | %s | %s | %s | %d\n", product[i]->id, product[i]->name, product[i]->unit, product[i]->address, product[i]->quantity);
+		printf("* %d | %s | %s | %s | %.2f\n", product[i]->id, product[i]->name, product[i]->unit, product[i]->address, product[i]->quantity);
 	}
 
 	printf("*******************************\n");
@@ -47,6 +47,6 @@ void showProduct(Product *product) {
 	printf("* NOME: %s\n", product->name);
 	printf("* UNIDADE: %s\n", product->unit);
 	printf("* ENDEREÇO: %s\n", product->address);
-	printf("* QUANTIDADE: %d\n", product->quantity);
+	printf("* QUANTIDADE: %.2f\n", product->quantity);
 	printf("*******************************\n");
 }

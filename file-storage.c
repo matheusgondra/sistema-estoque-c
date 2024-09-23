@@ -11,7 +11,7 @@ int stg_save_product(Product *product) {
 		return FALSE;
 	}
 
-	fprintf(file, "%d,%s,%s,%s,%d\n", product->id, product->name, product->unit, product->address, 0);
+	fprintf(file, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit, product->address, 0.0);
 	fclose(file);
 	return TRUE;
 }
@@ -28,7 +28,7 @@ Product **stg_load_products() {
 	
 	while (fgets(line, sizeof(line), file)) {
 		Product *product = (Product *)malloc(sizeof(Product));
-		sscanf(line, "%d,%[^,],%[^,],%[^,],%d\n", &product->id, product->name, product->unit, product->address, &product->quantity);
+		sscanf(line, "%d,%[^,],%[^,],%[^,],%f\n", &product->id, product->name, product->unit, product->address, &product->quantity);
 		products = (Product **) realloc(products, sizeof(Product *) * (count + 1));
 		products[count] = product;
 		count++;
@@ -52,33 +52,41 @@ Product *stg_find_product(int id) {
 }
 
 int stg_update_product_quantity(Product *product) {
-	FILE *file = fopen("products.csv", "r+");
+	FILE *file = fopen("products.csv", "r");
 	if (file == NULL) {
 		return FALSE;
 	}
 
-	char line[256];
-	long position;
-	int current_id;
-	BOOL found = FALSE;
-	
-	while (fgets(line, sizeof(line), file)) {
-		sscanf(line, "%d", &current_id);
-		if (current_id == product->id) {
-			found = TRUE;
-			position = ftell(file) - strlen(line) - 1;
-			break;
-		}
-	}
-
-	if (!found) {
+	FILE *temp = fopen("temp.csv", "w");
+	if (temp == NULL) {
 		fclose(file);
 		return FALSE;
 	}
 
-	fseek(file, position, SEEK_SET);
-	fprintf(file, "%d,%s,%s,%s,%d", product->id, product->name, product->unit, product->address, product->quantity);
-	fclose(file);
+	char line[256];
+	int current_id;
+	int found = FALSE;
 
-	return TRUE;
+	while (fgets(line, sizeof(line), file)) {
+		sscanf(line, "%d", &current_id);
+		
+		if (current_id == product->id) {
+			fprintf(temp, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit, product->address, product->quantity);
+			found = TRUE;
+		} else {
+			fputs(line, temp);
+		}
+	}
+
+	fclose(file);
+	fclose(temp);
+
+	if (found) {
+		remove("products.csv");
+		rename("temp.csv", "products.csv");
+	} else {
+		remove("temp.csv");
+	}
+
+	return found;
 }

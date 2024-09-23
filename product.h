@@ -6,13 +6,13 @@ typedef struct product {
 	char name[100];
 	char unit[10];
 	char address[50];
-	int quantity;
+	float quantity;
 } Product;
 
 Product* create_product(char *name, char *unit, char *address);
 void free_product(Product *product);
 void free_products(Product **products);
 
-int put_product_quantity(Product *product, int quantity);
+int put_product_quantity(Product *product, float quantity);
 
 #endif
