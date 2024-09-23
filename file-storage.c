@@ -90,3 +90,45 @@ BOOL stg_update_product_quantity(Product *product) {
 
 	return found;
 }
+
+Product **stg_find_products_by_regex(const char *regex) {
+	Product **products = stg_load_products();
+	if (products == NULL) {
+		return NULL;
+	}
+
+	Product **filtered = (Product **) malloc(sizeof(Product *));
+	int count = 0;
+	char buffer[256];
+
+	for (int i = 0; products[i] != NULL; i++) {
+		if (strstr(products[i]->name, regex) != NULL) {
+			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
+			filtered[count] = products[i];
+			count++;
+		}
+
+		if (strstr(products[i]->unit, regex) != NULL) {
+			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
+			filtered[count] = products[i];
+			count++;
+		}
+
+		if (strstr(products[i]->address, regex) != NULL) {
+			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
+			filtered[count] = products[i];
+			count++;
+		}
+
+		if (strstr(itoa(products[i]->id, buffer, 10), regex) != NULL) {
+			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
+			filtered[count] = products[i];
+			count++;
+		}
+	}
+
+	filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
+	filtered[count] = NULL;
+
+	return filtered;
+}

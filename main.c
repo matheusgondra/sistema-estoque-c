@@ -89,6 +89,7 @@ int main() {
 
 				free_product(product);
 				timeout(SECOND * 3);
+				system("pause");
 				break;
 			case PRODUCT_EXIT:
 				printf("Digite o id do produto:\n");
@@ -127,6 +128,7 @@ int main() {
 
 				free_product(product);
 				timeout(SECOND * 3);
+				system("pause");
 				break;
 			case LOAD_PRODUCTS:
 				product_list = stg_load_products();
@@ -143,21 +145,20 @@ int main() {
 				system("pause");
 				break;
 			case SEARCH_PRODUCT:
-				printf("Digite o id do produto:\n");
-				scanf("%d", &id);
-				fflush(stdin);
+				printf("Digite o produto que deseja buscar:\n");
+				get_input(name, sizeof(name));
 
-				product = stg_find_product(id);
-				if (product == NULL) {
-					printf("Produto não encontrado\n");
+				product_list = stg_find_products_by_regex(name);
+				if (product_list == NULL) {
+					printf("Nenhum produto encontrado\n");
 					timeout(SECOND * 3);
 					break;
 				}
 
-				showProduct(product);
+				showProducts(product_list);
 
 				timeout(SECOND * 3);
-				free_product(product);
+				free_products(product_list);
 				system("pause");
 				break;
 			default:
