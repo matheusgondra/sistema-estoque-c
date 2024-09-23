@@ -4,6 +4,7 @@
 		"locale.h": "c",
 		"storage.h": "c",
 		"ui.h": "c",
-		"string.h": "c"
+		"string.h": "c",
+		"product.h": "c"
 	}
 }

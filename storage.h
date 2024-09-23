@@ -2,10 +2,11 @@
 #define STORAGE_H
 
 #include "product.h"
+#include "utils.h"
 
-int stg_save_product(Product *product);
+BOOL stg_save_product(Product *product);
 Product **stg_load_products();
 Product *stg_find_product(int id);
-int stg_update_product_quantity(Product *product);
+BOOL stg_update_product_quantity(Product *product);
 
 #endif

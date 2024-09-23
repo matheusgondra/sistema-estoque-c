@@ -5,7 +5,7 @@
 #include "storage.h"
 #include "utils.h"
 
-int stg_save_product(Product *product) {
+BOOL stg_save_product(Product *product) {
 	FILE *file = fopen("products.csv", "a+");
 	if (file == NULL) {
 		return FALSE;
@@ -51,7 +51,7 @@ Product *stg_find_product(int id) {
 	return NULL;
 }
 
-int stg_update_product_quantity(Product *product) {
+BOOL stg_update_product_quantity(Product *product) {
 	FILE *file = fopen("products.csv", "r");
 	if (file == NULL) {
 		return FALSE;
@@ -65,7 +65,7 @@ int stg_update_product_quantity(Product *product) {
 
 	char line[256];
 	int current_id;
-	int found = FALSE;
+	BOOL found = FALSE;
 
 	while (fgets(line, sizeof(line), file)) {
 		sscanf(line, "%d", &current_id);

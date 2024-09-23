@@ -1,0 +1,1 @@
+gcc -o program main.c file-storage.c product.c utils.c terminal-ui.c

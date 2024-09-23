@@ -1,6 +1,8 @@
 #ifndef PRODUCT_H
 #define PRODUCT_H
 
+#include "utils.h"
+
 typedef struct product {
 	int id;
 	char name[100];
@@ -13,6 +15,6 @@ Product* create_product(char *name, char *unit, char *address);
 void free_product(Product *product);
 void free_products(Product **products);
 
-int put_product_quantity(Product *product, float quantity);
+BOOL put_product_quantity(Product *product, float quantity);
 
 #endif
