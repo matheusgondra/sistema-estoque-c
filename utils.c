@@ -4,12 +4,22 @@
 #include <locale.h>
 #include "utils.h"
 
+#ifdef _WIN32
+#include <windows.h>
+
+void timeout(int milliseconds) {
+  Sleep(milliseconds);
+}
+#else
+#include <unistd.h>
+
+void timeout(int milliseconds) {
+	sleep(milliseconds);
+}
+#endif
+
 void config_output() {
 	// setlocale(LC_ALL, "Portuguese");
-}
-
-void timeout(int miliseconds) {
-	Sleep(miliseconds);
 }
 
 void get_input(char *input, int size) {

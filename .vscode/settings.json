@@ -5,6 +5,8 @@
 		"storage.h": "c",
 		"ui.h": "c",
 		"string.h": "c",
-		"product.h": "c"
+		"product.h": "c",
+		"stdio.h": "c",
+		"unistd.h": "c"
 	}
 }
