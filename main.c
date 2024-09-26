@@ -23,7 +23,8 @@ int main() {
 	fflush(stdin);
 
 	Product *product, **product_list;
-	int id, qtd;
+	int id;
+	float qtd;
 	char name[256], unit[10], address[50];
 
 	while (option != 0) {
@@ -31,12 +32,27 @@ int main() {
 			case REGISTER_PRODUCT:
 				printf("Digite o nome do produto \n");
 				get_input(name, sizeof(name));
+				if (is_blank(name)) {
+					printf("Nome do produto nÆo pode ser vazio\n");
+					timeout(TIMEOUT);
+					break;
+				}
 
 				printf("Digite a unidade do produto \n");
 				get_input(unit, sizeof(unit));
+				if (is_blank(unit)) {
+					printf("Unidade do produto nÆo pode ser vazia\n");
+					timeout(TIMEOUT);
+					break;
+				}
 
 				printf("Digite o endere‡o onde ser  armazenado o produto: \n");
 				get_input(address, sizeof(address));
+				if (is_blank(address)) {
+					printf("Endere‡o do produto nÆo pode ser vazio\n");
+					timeout(TIMEOUT);
+					break;
+				}
 
 				product = create_product(name, unit, address);
 				if (product == NULL) {
@@ -67,7 +83,7 @@ int main() {
 				}
 				
 				printf("Digite a quantidade de entrada do produto:\n");
-				scanf("%d", &qtd);
+				scanf("%f", &qtd);
 				fflush(stdin);
 
 				result = put_product_quantity(product, qtd);
@@ -105,8 +121,8 @@ int main() {
 					break;
 				}
 
-				printf("Digite a quantidade de sa¡da do produto:\n");
-				scanf("%d", &qtd);
+				printf("Digite a quantidade de sa¡da do produto (use ponto em vez de v¡rgula em n£meros com casas decimais):\n");
+				scanf("%f", &qtd);
 				fflush(stdin);
 
 				if (product->quantity < qtd) {
@@ -149,6 +165,11 @@ int main() {
 			case SEARCH_PRODUCT:
 				printf("Digite o produto que deseja buscar:\n");
 				get_input(name, sizeof(name));
+				if (is_blank(name)) {
+					printf("Vocˆ deve informar algo para buscar\n");
+					timeout(TIMEOUT);
+					break;
+				}
 
 				product_list = stg_find_products_by_regex(name);
 				if (product_list == NULL) {

@@ -2,6 +2,7 @@
 #include <windows.h>
 #include <string.h>
 #include <locale.h>
+#include <ctype.h>
 #include "utils.h"
 
 #ifdef _WIN32
@@ -29,6 +30,14 @@ void get_input(char *input, int size) {
 	size_t len = strlen(input);
 
 	if (len > 0 && input[len - 1] == '\n') {
-			input[len - 1] = '\0';
+		input[len - 1] = '\0';
 	}
+}
+
+BOOL is_blank(const char *input) {
+	if (strlen(input) == 0 || isblank(input[0])) {
+		return TRUE;
+	}
+	
+	return FALSE;
 }

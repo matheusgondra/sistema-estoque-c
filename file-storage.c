@@ -11,8 +11,6 @@ BOOL stg_save_product(Product *product) {
 		return FALSE;
 	}
 
-	printf("Nome do produto: %s\n", product->name);
-
 	fprintf(file, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit, product->address, 0.0);
 	fclose(file);
 	return TRUE;

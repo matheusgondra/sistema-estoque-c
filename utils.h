@@ -10,5 +10,6 @@ typedef int BOOL;
 void config_output();
 void timeout(int miliseconds);
 void get_input(char *input, int size);
+BOOL is_blank(const char *input);
 
 #endif
