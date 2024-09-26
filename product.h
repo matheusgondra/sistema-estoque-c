@@ -14,7 +14,7 @@ typedef struct product {
 Product* create_product(char *name, char *unit, char *address);
 void free_product(Product *product);
 void free_products(Product **products);
-
 BOOL put_product_quantity(Product *product, float quantity);
+BOOL products_is_empty(Product **products);
 
 #endif

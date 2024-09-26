@@ -38,7 +38,7 @@ int main() {
 					break;
 				}
 
-				printf("Digite a unidade do produto \n");
+				printf("Digite a unidade do produto. Ex: m (metro), un (unidade) \n");
 				get_input(unit, sizeof(unit));
 				if (is_blank(unit)) {
 					showError("Unidade do produto n∆o pode ser vazia");
@@ -187,9 +187,10 @@ int main() {
 				}
 
 				product_list = stg_find_products_by_regex(name);
-				if (product_list == NULL) {
+				if (product_list == NULL || products_is_empty(product_list)) {
 					showError("Nenhum produto encontrado");
 					timeout(TIMEOUT);
+					free_products(product_list);
 					break;
 				}
 

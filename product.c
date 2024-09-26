@@ -58,9 +58,13 @@ void free_products(Product **products) {
 	free(products);
 }
 
+BOOL products_is_empty(Product **products) {
+	return products[0] == NULL;
+}
+
 BOOL put_product_quantity(Product *product, float quantity) {
 	if (quantity <= 0) {
-		printf("Quantidade inv lida\n");
+		printf("Quantidade invï¿½lida\n");
 		return FALSE;
 	}
 
