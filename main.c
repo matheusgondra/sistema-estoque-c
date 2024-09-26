@@ -24,7 +24,7 @@ int main() {
 
 	Product *product, **product_list, *product_created;
 	int id = -1;
-	float qtd;
+	float qtd = -1;
 	char name[256], unit[10], address[50];
 
 	while (option != 0) {
@@ -93,6 +93,13 @@ int main() {
 				printf("Digite a quantidade de entrada do produto:\n");
 				scanf("%f", &qtd);
 				fflush(stdin);
+
+				if (qtd <= 0.00) {
+					showError("Quantidade inv lida");
+					free_product(product);
+					timeout(TIMEOUT);
+					break;
+				}
 
 				result = put_product_quantity(product, qtd);
 				if (!result) {
@@ -200,6 +207,7 @@ int main() {
 		showMenu();
 		option = -1;
 		id = -1;
+		qtd = -1;
 		scanf("%d", &option);
 		fflush(stdin);
 	}
