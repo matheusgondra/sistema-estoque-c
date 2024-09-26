@@ -3,9 +3,17 @@
 #include "ui.h"
 #include "product.h"
 
+#ifdef _WIN32
 void clear_terminal() {
 	system("cls");
 }
+#else
+
+void clear_terminal() {
+	system("clear");
+}
+#endif
+
 
 void showMenu() {
 	clear_terminal();

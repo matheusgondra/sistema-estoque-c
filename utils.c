@@ -14,7 +14,7 @@ void timeout(int milliseconds) {
 #include <unistd.h>
 
 void timeout(int milliseconds) {
-	sleep(milliseconds);
+	sleep(milliseconds * 1000);
 }
 #endif
 

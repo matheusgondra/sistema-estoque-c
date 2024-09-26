@@ -101,7 +101,7 @@ Product **stg_find_products_by_regex(const char *regex) {
 
 	Product **filtered = (Product **) malloc(sizeof(Product *));
 	int count = 0;
-	char buffer[256];
+	char buffer[256], id[100];
 
 	for (int i = 0; products[i] != NULL; i++) {
 		if (strstr(products[i]->name, regex) != NULL) {
@@ -125,7 +125,8 @@ Product **stg_find_products_by_regex(const char *regex) {
 			continue;
 		}
 
-		if (strstr(itoa(products[i]->id, buffer, 10), regex) != NULL) {
+		sprintf(id, "%d", products[i]->id);
+		if (strstr(id, regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
