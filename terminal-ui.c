@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "ui.h"
 #include "product.h"
 
@@ -56,5 +57,15 @@ void showProduct(Product *product) {
 	printf("* UNIDADE: %s\n", product->unit);
 	printf("* ENDERE€O: %s\n", product->address);
 	printf("* QUANTIDADE: %.2f\n", product->quantity);
+	printf("*******************************\n");
+}
+
+void showError(char *message) {
+	clear_terminal();
+
+	printf("*******************************\n");
+	printf("*            ERRO             *\n");
+	printf("*******************************\n");
+	printf(" %s \n", message);
 	printf("*******************************\n");
 }

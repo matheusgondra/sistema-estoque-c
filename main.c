@@ -33,7 +33,7 @@ int main() {
 				printf("Digite o nome do produto \n");
 				get_input(name, sizeof(name));
 				if (is_blank(name)) {
-					printf("Nome do produto n∆o pode ser vazio\n");
+					showError("Nome do produto n∆o pode ser vazio");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -41,7 +41,7 @@ int main() {
 				printf("Digite a unidade do produto \n");
 				get_input(unit, sizeof(unit));
 				if (is_blank(unit)) {
-					printf("Unidade do produto n∆o pode ser vazia\n");
+					showError("Unidade do produto n∆o pode ser vazia");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -49,7 +49,7 @@ int main() {
 				printf("Digite o endereáo onde ser† armazenado o produto: \n");
 				get_input(address, sizeof(address));
 				if (is_blank(address)) {
-					printf("Endereáo do produto n∆o pode ser vazio\n");
+					showError("Endereáo do produto n∆o pode ser vazio");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -166,7 +166,7 @@ int main() {
 				printf("Digite o produto que deseja buscar:\n");
 				get_input(name, sizeof(name));
 				if (is_blank(name)) {
-					printf("Vocà deve informar algo para buscar\n");
+					showError("Vocà deve informar algo para buscar");
 					timeout(TIMEOUT);
 					break;
 				}

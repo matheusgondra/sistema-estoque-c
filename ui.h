@@ -6,5 +6,6 @@
 void showMenu();
 void showProducts(Product **products);
 void showProduct(Product *product);
+void showError(char *message);
 
 #endif
