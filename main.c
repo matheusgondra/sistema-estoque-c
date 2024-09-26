@@ -11,6 +11,8 @@
 #define PRODUCT_ENTRY 4
 #define PRODUCT_EXIT 5
 
+#define TIMEOUT SECOND * 2
+
 int main() {
 	config_output();
 
@@ -33,7 +35,7 @@ int main() {
 				printf("Digite a unidade do produto \n");
 				get_input(unit, sizeof(unit));
 
-				printf("Digite o endereÃ§o onde serÃ¡ armazenado o produto: \n");
+				printf("Digite o endere‡o onde ser  armazenado o produto: \n");
 				get_input(address, sizeof(address));
 
 				product = create_product(name, unit, address);
@@ -50,7 +52,7 @@ int main() {
 
 				printf("Produto cadastrado com sucesso\n");
 				free_product(product);
-				timeout(SECOND * 3);
+				timeout(TIMEOUT);
 				break;
 			case PRODUCT_ENTRY:
 				printf("Digite o id do produto:\n");
@@ -59,8 +61,8 @@ int main() {
 
 				product = stg_find_product(id);
 				if (product == NULL) {
-					printf("Produto nÃ£o encontrado\n");
-					timeout(SECOND * 3);
+					printf("Produto nÆo encontrado\n");
+					timeout(TIMEOUT);
 					break;
 				}
 				
@@ -72,7 +74,7 @@ int main() {
 				if (!result) {
 					printf("Erro dar entrada no produto\n");
 					free_product(product);
-					timeout(SECOND * 3);
+					timeout(TIMEOUT);
 					break;
 				}
 
@@ -80,7 +82,7 @@ int main() {
 				if (!result) {
 					printf("Erro ao atualizar quantidade do produto\n");
 					free_product(product);
-					timeout(SECOND * 3);
+					timeout(TIMEOUT);
 					break;
 				}
 				
@@ -88,7 +90,7 @@ int main() {
 				printf("Entrada de produto realizada com sucesso\n");
 
 				free_product(product);
-				timeout(SECOND * 3);
+				timeout(TIMEOUT);
 				system("pause");
 				break;
 			case PRODUCT_EXIT:
@@ -98,19 +100,19 @@ int main() {
 
 				product = stg_find_product(id);
 				if (product == NULL) {
-					printf("Produto nÃ£o encontrado\n");
-					timeout(SECOND * 3);
+					printf("Produto nÆo encontrado\n");
+					timeout(TIMEOUT);
 					break;
 				}
 
-				printf("Digite a quantidade de saÃ­da do produto:\n");
+				printf("Digite a quantidade de sa¡da do produto:\n");
 				scanf("%d", &qtd);
 				fflush(stdin);
 
 				if (product->quantity < qtd) {
 					printf("Quantidade insuficiente\n");
 					free_product(product);
-					timeout(SECOND * 3);
+					timeout(TIMEOUT);
 					break;
 				}
 
@@ -119,28 +121,28 @@ int main() {
 				if (!result) {
 					printf("Erro ao atualizar quantidade do produto\n");
 					free_product(product);
-					timeout(SECOND * 3);
+					timeout(TIMEOUT);
 					break;
 				}
 
 				showProduct(product);
-				printf("SaÃ­da de produto realizada com sucesso\n");
+				printf("Sa¡da de produto realizada com sucesso\n");
 
 				free_product(product);
-				timeout(SECOND * 3);
+				timeout(TIMEOUT);
 				system("pause");
 				break;
 			case LOAD_PRODUCTS:
 				product_list = stg_load_products();
 				if (product_list == NULL) {
 					printf("Nenhum produto cadastrado\n");
-					timeout(SECOND * 3);
+					timeout(TIMEOUT);
 					break;
 				}
 
 				showProducts(product_list);
 
-				timeout(SECOND * 3);
+				timeout(TIMEOUT);
 				free_products(product_list);
 				system("pause");
 				break;
@@ -151,19 +153,19 @@ int main() {
 				product_list = stg_find_products_by_regex(name);
 				if (product_list == NULL) {
 					printf("Nenhum produto encontrado\n");
-					timeout(SECOND * 3);
+					timeout(TIMEOUT);
 					break;
 				}
 
 				showProducts(product_list);
 
-				timeout(SECOND * 3);
+				timeout(TIMEOUT);
 				free_products(product_list);
 				system("pause");
 				break;
 			default:
-				printf("OpÃ§Ã£o invÃ¡lida\n");
-				timeout(SECOND * 3);
+				printf("Op‡Æo inv lida\n");
+				timeout(TIMEOUT);
 		}
 
 		showMenu();

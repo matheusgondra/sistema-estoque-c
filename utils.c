@@ -5,7 +5,7 @@
 #include "utils.h"
 
 void config_output() {
-	setlocale(LC_ALL, "pt_BR.UTF-8");
+	// setlocale(LC_ALL, "Portuguese");
 }
 
 void timeout(int miliseconds) {

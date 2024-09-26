@@ -11,6 +11,8 @@ BOOL stg_save_product(Product *product) {
 		return FALSE;
 	}
 
+	printf("Nome do produto: %s\n", product->name);
+
 	fprintf(file, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit, product->address, 0.0);
 	fclose(file);
 	return TRUE;
@@ -106,24 +108,28 @@ Product **stg_find_products_by_regex(const char *regex) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
+			continue;
 		}
 
 		if (strstr(products[i]->unit, regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
+			continue;
 		}
 
 		if (strstr(products[i]->address, regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
+			continue;
 		}
 
 		if (strstr(itoa(products[i]->id, buffer, 10), regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
+			continue;
 		}
 	}
 

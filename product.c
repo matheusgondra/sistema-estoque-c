@@ -60,7 +60,7 @@ void free_products(Product **products) {
 
 BOOL put_product_quantity(Product *product, float quantity) {
 	if (quantity <= 0) {
-		printf("Quantidade invÃ¡lida\n");
+		printf("Quantidade inv lida\n");
 		return FALSE;
 	}
 
