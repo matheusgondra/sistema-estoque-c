@@ -165,9 +165,10 @@ int main() {
 				break;
 			case LOAD_PRODUCTS:
 				product_list = stg_load_products();
-				if (product_list == NULL) {
+				if (product_list == NULL || products_is_empty(product_list)) {
 					showError("Nenhum produto cadastrado");
 					timeout(TIMEOUT);
+					free_products(product_list);
 					break;
 				}
 
