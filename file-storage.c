@@ -51,6 +51,17 @@ Product *stg_find_product(int id) {
 	return NULL;
 }
 
+Product *stg_find_product_by_name(const char *name) {
+	Product **product = stg_load_products();
+	for (int i = 0; product[i] != NULL; i++) {
+		if (strcmp(product[i]->name, name) == 0) {
+			return product[i];
+		}
+	}
+	return NULL;
+}
+
+
 BOOL stg_update_product_quantity(Product *product) {
 	FILE *file = fopen("products.csv", "r");
 	if (file == NULL) {

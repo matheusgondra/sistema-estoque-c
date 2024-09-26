@@ -22,8 +22,8 @@ int main() {
 	scanf("%d", &option);
 	fflush(stdin);
 
-	Product *product, **product_list;
-	int id;
+	Product *product, **product_list, *product_created;
+	int id = -1;
 	float qtd;
 	char name[256], unit[10], address[50];
 
@@ -56,13 +56,21 @@ int main() {
 
 				product = create_product(name, unit, address);
 				if (product == NULL) {
-					printf("Erro ao cadastrar produto\n");
+					showError("Erro ao cadastrar produto");
 					exit(EXIT_FAILURE);
+				}
+
+				product_created = stg_find_product_by_name(product->name);
+				if (product_created != NULL) {
+					printf("Produto j  cadastrado\n");
+					free_product(product_created);
+					timeout(TIMEOUT);
+					break;
 				}
 
 				int result = stg_save_product(product);
 				if (!result) {
-					printf("Erro ao salvar produto\n");
+					showError("Erro ao salvar produto");
 					exit(EXIT_FAILURE);
 				}
 
@@ -77,7 +85,7 @@ int main() {
 
 				product = stg_find_product(id);
 				if (product == NULL) {
-					printf("Produto nÆo encontrado\n");
+					showError("Produto nÆo encontrado");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -88,7 +96,7 @@ int main() {
 
 				result = put_product_quantity(product, qtd);
 				if (!result) {
-					printf("Erro dar entrada no produto\n");
+					showError("Erro ao dar entrada no produto");
 					free_product(product);
 					timeout(TIMEOUT);
 					break;
@@ -96,7 +104,7 @@ int main() {
 
 				result = stg_update_product_quantity(product);
 				if (!result) {
-					printf("Erro ao atualizar quantidade do produto\n");
+					showError("Erro ao atualizar quantidade do produto");
 					free_product(product);
 					timeout(TIMEOUT);
 					break;
@@ -116,7 +124,7 @@ int main() {
 
 				product = stg_find_product(id);
 				if (product == NULL) {
-					printf("Produto nÆo encontrado\n");
+					showError("Produto nÆo encontrado");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -126,7 +134,7 @@ int main() {
 				fflush(stdin);
 
 				if (product->quantity < qtd) {
-					printf("Quantidade insuficiente\n");
+					showError("Quantidade insuficiente");
 					free_product(product);
 					timeout(TIMEOUT);
 					break;
@@ -135,7 +143,7 @@ int main() {
 				product->quantity -= qtd;
 				result = stg_update_product_quantity(product);
 				if (!result) {
-					printf("Erro ao atualizar quantidade do produto\n");
+					showError("Erro ao atualizar quantidade do produto");
 					free_product(product);
 					timeout(TIMEOUT);
 					break;
@@ -151,7 +159,7 @@ int main() {
 			case LOAD_PRODUCTS:
 				product_list = stg_load_products();
 				if (product_list == NULL) {
-					printf("Nenhum produto cadastrado\n");
+					showError("Nenhum produto cadastrado");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -173,7 +181,7 @@ int main() {
 
 				product_list = stg_find_products_by_regex(name);
 				if (product_list == NULL) {
-					printf("Nenhum produto encontrado\n");
+					showError("Nenhum produto encontrado");
 					timeout(TIMEOUT);
 					break;
 				}
@@ -185,11 +193,13 @@ int main() {
 				system("pause");
 				break;
 			default:
-				printf("Op‡Æo inv lida\n");
+				showError("Op‡Æo inv lida");
 				timeout(TIMEOUT);
 		}
 
 		showMenu();
+		option = -1;
+		id = -1;
 		scanf("%d", &option);
 		fflush(stdin);
 	}
