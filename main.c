@@ -75,8 +75,9 @@ int main() {
 				}
 
 				printf("Produto cadastrado com sucesso\n");
+				showProduct(product);
+				system("pause");
 				free_product(product);
-				timeout(TIMEOUT);
 				break;
 			case PRODUCT_ENTRY:
 				printf("Digite o id do produto:\n");
@@ -141,7 +142,7 @@ int main() {
 				fflush(stdin);
 
 				if (product->quantity < qtd) {
-					showError("Quantidade insuficiente");
+					showError("Quantidade insuficiente no estoque");
 					free_product(product);
 					timeout(TIMEOUT);
 					break;
