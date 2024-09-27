@@ -102,7 +102,7 @@ BOOL stg_update_product_quantity(Product *product) {
 	return found;
 }
 
-Product **stg_find_products_by_regex(const char *regex) {
+Product **stg_find_products_by_regex(char *regex) {
 	Product **products = stg_load_products();
 	if (products == NULL) {
 		return NULL;
@@ -111,23 +111,29 @@ Product **stg_find_products_by_regex(const char *regex) {
 	Product **filtered = (Product **) malloc(sizeof(Product *));
 	int count = 0;
 	char buffer[256], id[100];
+	char *name, *unit, *address;
 
 	for (int i = 0; products[i] != NULL; i++) {
-		if (strstr(products[i]->name, regex) != NULL) {
+		name = to_lower(products[i]->name);
+		unit = to_lower(products[i]->unit);
+		address = to_lower(products[i]->address);
+		regex = to_lower(regex);
+
+		if (strstr(name, regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
 			continue;
 		}
 
-		if (strstr(products[i]->unit, regex) != NULL) {
+		if (strstr(unit, regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;
 			continue;
 		}
 
-		if (strstr(products[i]->address, regex) != NULL) {
+		if (strstr(address, regex) != NULL) {
 			filtered = (Product **) realloc(filtered, sizeof(Product *) * (count + 1));
 			filtered[count] = products[i];
 			count++;

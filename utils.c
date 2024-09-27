@@ -34,6 +34,22 @@ void get_input(char *input, int size) {
 	}
 }
 
+char *to_lower(const char *str) {
+	size_t len = strlen(str);
+	char *lower_str = (char *) malloc((len + 1) * sizeof(char));
+	if (lower_str == NULL) {
+		fprintf(stderr, "Erro ao alocar memória\n");
+		exit(EXIT_FAILURE);
+	}
+
+	for (size_t i = 0; i < len; i++) {
+		lower_str[i] = tolower((unsigned char) str[i]);
+	}
+	lower_str[len] = '\0';
+
+	return lower_str;
+}
+
 BOOL is_blank(const char *input) {
 	if (strlen(input) == 0 || isblank(input[0])) {
 		return TRUE;
