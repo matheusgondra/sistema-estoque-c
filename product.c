@@ -52,6 +52,10 @@ void free_product(Product *product) {
 }
 
 void free_products(Product **products) {
+	if (products == NULL) {
+		return;
+	}
+	
 	for (int i = 0; products[i] != NULL; i++) {
 		free(products[i]);
 	}
