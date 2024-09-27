@@ -53,6 +53,11 @@ Product *stg_find_product(int id) {
 
 Product *stg_find_product_by_name(const char *name) {
 	Product **product = stg_load_products();
+
+	if (product == NULL) {
+		return NULL;
+	}
+
 	for (int i = 0; product[i] != NULL; i++) {
 		if (strcmp(product[i]->name, name) == 0) {
 			return product[i];
