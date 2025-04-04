@@ -1,1 +1,0 @@
-gcc -o sistema-de-estoque main.c file-storage.c product.c utils.c terminal-ui.c
