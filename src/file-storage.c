@@ -2,21 +2,22 @@
 #include <stdlib.h>
 #include <locale.h>
 #include <string.h>
+#include <stdbool.h>
 #include "storage.h"
 #include "utils.h"
 #include "product.h"
 
-BOOL stg_save_product(Product *product)
+bool stg_save_product(Product *product)
 {
 	FILE *file = fopen("products.csv", "a+");
 	if (file == NULL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	fprintf(file, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit, product->address, 0.0);
 	fclose(file);
-	return TRUE;
+	return true;
 }
 
 Product **stg_load_products()
@@ -79,24 +80,24 @@ Product *stg_find_product_by_name(const char *name)
 	return NULL;
 }
 
-BOOL stg_update_product_quantity(Product *product)
+bool stg_update_product_quantity(Product *product)
 {
 	FILE *file = fopen("products.csv", "r");
 	if (file == NULL)
 	{
-		return FALSE;
+		return false;
 	}
 
 	FILE *temp = fopen("temp.csv", "w");
 	if (temp == NULL)
 	{
 		fclose(file);
-		return FALSE;
+		return false;
 	}
 
 	char line[256];
 	int current_id;
-	BOOL found = FALSE;
+	bool found = false;
 
 	while (fgets(line, sizeof(line), file))
 	{
@@ -105,7 +106,7 @@ BOOL stg_update_product_quantity(Product *product)
 		if (current_id == product->id)
 		{
 			fprintf(temp, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit, product->address, product->quantity);
-			found = TRUE;
+			found = true;
 		}
 		else
 		{

@@ -125,7 +125,7 @@ void register_product()
 void product_entry()
 {
 	Product *product = NULL;
-	BOOL result = FALSE;
+	bool result = false;
 	int id = -1;
 	float qtd = -1;
 
@@ -185,7 +185,7 @@ void product_entry()
 void product_exit()
 {
 	Product *product = NULL;
-	BOOL result = FALSE;
+	bool result = false;
 	int id = -1;
 	float qtd = -1;
 
