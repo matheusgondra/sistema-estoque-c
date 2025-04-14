@@ -64,7 +64,6 @@ int main()
 void register_product()
 {
 	char name[256], unit[10], address[50];
-	Product *product = NULL;
 
 	printf("Digite o nome do produto \n");
 	get_input(name, sizeof(name));
@@ -93,14 +92,15 @@ void register_product()
 		return;
 	}
 
-	product = create_product(name, unit, address);
-	if (product == NULL)
+	Product product;
+	create_product(&product, name, unit, address);
+	if (!check_product(&product))
 	{
 		showError("Erro ao cadastrar produto");
 		exit(EXIT_FAILURE);
 	}
 
-	Product *product_created = stg_find_product_by_name(product->name);
+	Product *product_created = stg_find_product_by_name(product.name);
 	if (product_created != NULL)
 	{
 		printf("Produto j� cadastrado\n");
@@ -109,7 +109,7 @@ void register_product()
 		return;
 	}
 
-	int result = stg_save_product(product);
+	int result = stg_save_product(&product);
 	if (!result)
 	{
 		showError("Erro ao salvar produto");
@@ -117,9 +117,8 @@ void register_product()
 	}
 
 	printf("Produto cadastrado com sucesso\n");
-	showProduct(product);
+	showProduct(&product);
 	system("pause");
-	free_product(product);
 }
 
 void product_entry()

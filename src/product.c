@@ -36,22 +36,29 @@ int get_id()
 	return id;
 }
 
-Product *create_product(char *name, char *unit, char *address)
+void create_product(Product *product, char *name, char *unit, char *address)
 {
-	Product *product = (Product *)malloc(sizeof(Product));
-	if (product == NULL)
-	{
-		printf("Erro ao criar produto\n");
-		return NULL;
-	}
-
 	product->id = get_id();
 	strcpy(product->name, name);
 	strcpy(product->unit, unit);
 	strcpy(product->address, address);
 	product->quantity = 0;
+}
 
-	return product;
+bool check_product(Product *product)
+{
+	if (product == NULL)
+	{
+		return false;
+	}
+
+	bool is_valid_name = strlen(product->name) > 0;
+	bool is_valid_unit = strlen(product->unit) > 0;
+	bool is_valid_address = strlen(product->address) > 0;
+
+	bool is_valid_product = is_valid_name && is_valid_unit && is_valid_address;
+
+	return is_valid_product;
 }
 
 void free_product(Product *product)
