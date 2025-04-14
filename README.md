@@ -21,10 +21,10 @@ O projeto foi dividido em vários arquivo para ser mais escalavel e de fácil ma
 
 ## Compilação
 
-O projeto foi desenvolvido no Windows e o arquivo `compile.bat` pode ser executado para compilar o programa. Para isso é apenas necessário ter instalado o compilador GCC.
+O projeto foi desenvolvido no Windows e o arquivo `Makefile` pode ser executado para compilar o programa. Para isso é apenas necessário ter instalado o compilador **GCC** e o utilitário **make**.
 
 ```bash
-compile.bat
+make
 ```
 
 ## Execução
