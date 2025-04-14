@@ -23,7 +23,7 @@ void timeout(int milliseconds)
 
 void config_output()
 {
-	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "pt_BR.UTF-8");
 }
 
 void get_input(char *input, int size)

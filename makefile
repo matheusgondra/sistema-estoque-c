@@ -2,7 +2,7 @@
 CC = gcc
 
 # Flags de compilação
-CFLAGS = -Wall -Wextra -Werror -Iinclude
+CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8
 
 # Nome do executável final
 TARGET = sistema-de-estoque.exe
