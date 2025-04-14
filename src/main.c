@@ -49,7 +49,7 @@ int main()
 			search_product();
 			break;
 		default:
-			showError("Op��o inv�lida");
+			showError("Opção inválida");
 			timeout(TIMEOUT);
 		}
 
@@ -63,13 +63,15 @@ int main()
 
 void register_product()
 {
+	Product product;
+	bool result = false;
 	char name[256], unit[10], address[50];
 
 	printf("Digite o nome do produto \n");
 	get_input(name, sizeof(name));
 	if (is_blank(name))
 	{
-		showError("Nome do produto n�o pode ser vazio");
+		showError("Nome do produto não pode ser vazio");
 		timeout(TIMEOUT);
 		return;
 	}
@@ -78,42 +80,40 @@ void register_product()
 	get_input(unit, sizeof(unit));
 	if (is_blank(unit))
 	{
-		showError("Unidade do produto n�o pode ser vazia");
+		showError("Unidade do produto não pode ser vazia");
 		timeout(TIMEOUT);
 		return;
 	}
 
-	printf("Digite o endere�o onde ser� armazenado o produto: \n");
+	printf("Digite o endereço onde será armazenado o produto: \n");
 	get_input(address, sizeof(address));
 	if (is_blank(address))
 	{
-		showError("Endere�o do produto n�o pode ser vazio");
+		showError("Endereço do produto não pode ser vazio");
 		timeout(TIMEOUT);
 		return;
 	}
 
-	Product product;
 	create_product(&product, name, unit, address);
 	if (!check_product(&product))
 	{
 		showError("Erro ao cadastrar produto");
-		exit(EXIT_FAILURE);
+		return;
 	}
 
-	Product *product_created = stg_find_product_by_name(product.name);
-	if (product_created != NULL)
+	result = stg_find_product_by_name(&product, product.name);
+	if (result)
 	{
-		printf("Produto j� cadastrado\n");
-		free_product(product_created);
+		printf("Produto já cadastrado\n");
 		timeout(TIMEOUT);
 		return;
 	}
 
-	int result = stg_save_product(&product);
+	result = stg_save_product(&product);
 	if (!result)
 	{
 		showError("Erro ao salvar produto");
-		exit(EXIT_FAILURE);
+		return;
 	}
 
 	printf("Produto cadastrado com sucesso\n");
@@ -123,7 +123,7 @@ void register_product()
 
 void product_entry()
 {
-	Product *product = NULL;
+	Product product;
 	bool result = false;
 	int id = -1;
 	float qtd = -1;
@@ -132,10 +132,10 @@ void product_entry()
 	scanf("%d", &id);
 	fflush(stdin);
 
-	product = stg_find_product(id);
-	if (product == NULL)
+	result = stg_find_product(&product, id);
+	if (!result)
 	{
-		showError("Produto n�o encontrado");
+		showError("Produto não encontrado");
 		timeout(TIMEOUT);
 		return;
 	}
@@ -149,41 +149,38 @@ void product_entry()
 
 	if (qtd <= 0.00)
 	{
-		showError("Quantidade inv�lida");
-		free_product(product);
+		showError("Quantidade inválida");
 		timeout(TIMEOUT);
 		return;
 	}
 
-	result = put_product_quantity(product, qtd);
+	result = put_product_quantity(&product, qtd);
 	if (!result)
 	{
 		showError("Erro ao dar entrada no produto");
-		free_product(product);
 		timeout(TIMEOUT);
 		return;
 	}
 
-	result = stg_update_product_quantity(product);
+	result = stg_update_product_quantity(&product);
 	if (!result)
 	{
 		showError("Erro ao atualizar quantidade do produto");
-		free_product(product);
 		timeout(TIMEOUT);
 		return;
 	}
 
-	showProduct(product);
+	showProduct(&product);
 	printf("Entrada de produto realizada com sucesso\n");
 
-	free_product(product);
+	free_product(&product);
 	timeout(TIMEOUT);
 	system("pause");
 }
 
 void product_exit()
 {
-	Product *product = NULL;
+	Product product;
 	bool result = false;
 	int id = -1;
 	float qtd = -1;
@@ -192,40 +189,37 @@ void product_exit()
 	scanf("%d", &id);
 	fflush(stdin);
 
-	product = stg_find_product(id);
-	if (product == NULL)
+	result = stg_find_product(&product, id);
+	if (!result)
 	{
-		showError("Produto n�o encontrado");
+		showError("Produto não encontrado");
 		timeout(TIMEOUT);
 		return;
 	}
 
-	printf("Digite a quantidade de sa�da do produto (use ponto em vez de v�rgula em n�meros com casas decimais):\n");
+	printf("Digite a quantidade de saída do produto (use ponto em vez de vírgula em números com casas decimais):\n");
 	scanf("%f", &qtd);
 	fflush(stdin);
 
-	if (product->quantity < qtd)
+	if (product.quantity < qtd)
 	{
 		showError("Quantidade insuficiente no estoque");
-		free_product(product);
 		timeout(TIMEOUT);
 		return;
 	}
 
-	product->quantity -= qtd;
-	result = stg_update_product_quantity(product);
+	product.quantity -= qtd;
+	result = stg_update_product_quantity(&product);
 	if (!result)
 	{
 		showError("Erro ao atualizar quantidade do produto");
-		free_product(product);
 		timeout(TIMEOUT);
 		return;
 	}
 
-	showProduct(product);
-	printf("Sa�da de produto realizada com sucesso\n");
+	showProduct(&product);
+	printf("Saída de produto realizada com sucesso\n");
 
-	free_product(product);
 	timeout(TIMEOUT);
 	system("pause");
 }
@@ -257,7 +251,7 @@ void search_product()
 	get_input(name, sizeof(name));
 	if (is_blank(name))
 	{
-		showError("Voc� deve informar algo para buscar");
+		showError("Você deve informar algo para buscar");
 		timeout(TIMEOUT);
 		return;
 	}

@@ -89,7 +89,7 @@ bool put_product_quantity(Product *product, float quantity)
 {
 	if (quantity <= 0)
 	{
-		printf("Quantidade inv�lida\n");
+		printf("Quantidade inválida\n");
 		return false;
 	}
 

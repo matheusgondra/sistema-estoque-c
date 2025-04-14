@@ -27,6 +27,6 @@ build/%.o: src/%.c
 
 # Limpeza dos arquivos gerados
 clean:
-	del /Q build\*.o $(TARGET)
+	rm -rf build
 
 .PHONY: all clean

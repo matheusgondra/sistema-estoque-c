@@ -48,36 +48,49 @@ Product **stg_load_products()
 	return products;
 }
 
-Product *stg_find_product(int id)
+bool stg_find_product(Product *product, int id)
 {
-	Product **product = stg_load_products();
-	for (int i = 0; product[i] != NULL; i++)
+	Product **products = stg_load_products();
+
+	for (int i = 0; products[i] != NULL; i++)
 	{
-		if (product[i]->id == id)
+		if (products[i]->id == id)
 		{
-			return product[i];
+			product->id = products[i]->id;
+			create_product(product, products[i]->name, products[i]->unit, products[i]->address);
+			product->quantity = products[i]->quantity;
+			free(products[i]);
+
+			return true;
 		}
 	}
-	return NULL;
+
+	free(products);
+	return false;
 }
 
-Product *stg_find_product_by_name(const char *name)
+bool stg_find_product_by_name(Product *product, const char *name)
 {
-	Product **product = stg_load_products();
-
-	if (product == NULL)
+	Product **products = stg_load_products();
+	if (products == NULL)
 	{
-		return NULL;
+		return false;
 	}
 
-	for (int i = 0; product[i] != NULL; i++)
+	for (int i = 0; products[i] != NULL; i++)
 	{
-		if (strcmp(product[i]->name, name) == 0)
+		if (strcmp(products[i]->name, name) == 0)
 		{
-			return product[i];
+			product->id = products[i]->id;
+			create_product(product, products[i]->name, products[i]->unit, products[i]->address);
+			product->quantity = products[i]->quantity;
+
+			free(products[i]);
+			return true;
 		}
 	}
-	return NULL;
+
+	return false;
 }
 
 bool stg_update_product_quantity(Product *product)
