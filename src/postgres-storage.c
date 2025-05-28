@@ -45,7 +45,6 @@ char *get_connect_url() {
     return conninfo;
 }
 
-
 bool stg_save_product(Product *product) {
     PGconn *conn = PQconnectdb(get_connect_url());
     if (PQstatus(conn) != CONNECTION_OK) {
@@ -84,4 +83,54 @@ bool stg_save_product(Product *product) {
     PQfinish(conn);
 
     return true;
+}
+
+Product **stg_load_products() {
+
+}
+
+bool stg_find_product(Product *product, int id) {
+    PGconn *conn = PQconnectdb(get_connect_url());
+    if (PQstatus(conn) != CONNECTION_OK) {
+        printf("Erro ao conectar ao banco de dados\n");
+        return false;
+    }
+
+    char id_str[12];
+    snprintf(id_str, sizeof(id_str), "%d", id);
+
+    const char *query = "SELECT id, name, unit, address, quantity FROM products WHERE id = $1";
+    const char paramValues[1] = { id_str };
+    const char paramLengths[1] = { (int) sizeof(id_str) };
+    const char paramFormats[1] = { 0 };
+
+
+    PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, paramLengths, paramFormats, 0);
+    if (PQresultStatus(result) != PGRES_TUPLES_OK) {
+        fprintf(stderr, "Erro ao buscar produto: %s\n", PQerrorMessage(conn));
+        PQclear(result);
+        return false;
+    }
+
+    int n = PQntuples(result);
+    if (n == 0) {
+        printf("Produto não encontrado\n");
+        return false;
+    }
+
+    product->id = atoi(PQgetvalue(result, 0, 0));
+    strcpy(product->name, PQgetvalue(result, 0, 1));
+    strcpy(product->unit, PQgetvalue(result, 0, 2));
+    product->quantity = atof(PQgetvalue(result, 0, 3));
+
+    return true;
+}
+bool stg_update_product_quantity(Product *product) {
+
+}
+Product **stg_find_products_by_regex(char *regex) {
+
+}
+bool stg_find_product_by_name(Product *product, const char *name) {
+
 }
