@@ -12,5 +12,6 @@ void timeout(int miliseconds);
 void get_input(char *input, int size);
 bool is_blank(const char *input);
 char *to_lower(const char *str);
+void clear_input_buffer();
 
 #endif

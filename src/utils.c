@@ -67,3 +67,9 @@ bool is_blank(const char *input)
 
 	return false;
 }
+
+void clear_input_buffer() 
+{
+	int c;
+	while ((c = getchar()) != '\n' && c != EOF) {}
+}

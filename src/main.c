@@ -27,7 +27,7 @@ int main()
 
 	showMenu();
 	scanf("%d", &option);
-	fflush(stdin);
+	clear_input_buffer();
 
 	while (option != 0)
 	{
@@ -56,7 +56,7 @@ int main()
 		showMenu();
 		option = -1;
 		scanf("%d", &option);
-		fflush(stdin);
+		clear_input_buffer();
 	}
 	return 0;
 }
@@ -130,7 +130,7 @@ void product_entry()
 
 	printf("Digite o id do produto:\n");
 	scanf("%d", &id);
-	fflush(stdin);
+	clear_input_buffer();
 
 	result = stg_find_product(&product, id);
 	if (!result)
@@ -142,7 +142,7 @@ void product_entry()
 
 	printf("Digite a quantidade de entrada do produto:\n");
 	scanf("%f", &qtd);
-	fflush(stdin);
+	clear_input_buffer();
 
 	printf("Quantidade: %.2f\n", qtd);
 	timeout(TIMEOUT);
@@ -187,7 +187,7 @@ void product_exit()
 
 	printf("Digite o id do produto:\n");
 	scanf("%d", &id);
-	fflush(stdin);
+	clear_input_buffer();
 
 	result = stg_find_product(&product, id);
 	if (!result)
@@ -199,7 +199,7 @@ void product_exit()
 
 	printf("Digite a quantidade de saída do produto (use ponto em vez de vírgula em números com casas decimais):\n");
 	scanf("%f", &qtd);
-	fflush(stdin);
+	clear_input_buffer();
 
 	if (product.quantity < qtd)
 	{
