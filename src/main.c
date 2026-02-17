@@ -233,7 +233,7 @@ void load_products()
 	{
 		showError("Nenhum produto cadastrado");
 		timeout(TIMEOUT);
-		// free_products(product_list);
+		free_products(product_list);
 		return;
 	}
 

@@ -4,7 +4,9 @@
             "name": "Win32",
             "includePath": [
                 "${default}",
-                "C:\\Program Files\\PostgreSQL\\17\\include"
+                "C:\\Program Files\\PostgreSQL\\17\\include",
+                "${workspaceFolder}/include",
+                "/usr/include/postgresql"
             ],
             "defines": [
                 "_DEBUG",

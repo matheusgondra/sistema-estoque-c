@@ -20,7 +20,7 @@ bool stg_save_product(Product *product)
 	return true;
 }
 
-Product **stg_load_products()
+Product **stg_load_products(int *count)
 {
 	FILE *file = fopen("products.csv", "r");
 	if (file == NULL)
@@ -29,20 +29,20 @@ Product **stg_load_products()
 	}
 
 	Product **products = (Product **)malloc(sizeof(Product *));
-	int count = 0;
+	*count = 0;
 	char line[256];
 
 	while (fgets(line, sizeof(line), file))
 	{
 		Product *product = (Product *)malloc(sizeof(Product));
 		sscanf(line, "%d,%[^,],%[^,],%[^,],%f\n", &product->id, product->name, product->unit, product->address, &product->quantity);
-		products = (Product **)realloc(products, sizeof(Product *) * (count + 1));
-		products[count] = product;
-		count++;
+		products = (Product **)realloc(products, sizeof(Product *) * (*count + 1));
+		products[*count] = product;
+		(*count)++;
 	}
 
-	products = (Product **)realloc(products, sizeof(Product *) * (count + 1));
-	products[count] = NULL;
+	products = (Product **)realloc(products, sizeof(Product *) * (*count + 1));
+	products[*count] = NULL;
 
 	fclose(file);
 	return products;
@@ -50,9 +50,10 @@ Product **stg_load_products()
 
 bool stg_find_product(Product *product, int id)
 {
-	Product **products = stg_load_products();
+	int count = 0;
+	Product **products = stg_load_products(&count);
 
-	for (int i = 0; products[i] != NULL; i++)
+	for (int i = 0; i < count; i++)
 	{
 		if (products[i]->id == id)
 		{
@@ -71,13 +72,14 @@ bool stg_find_product(Product *product, int id)
 
 bool stg_find_product_by_name(Product *product, const char *name)
 {
-	Product **products = stg_load_products();
+	int count = 0;
+	Product **products = stg_load_products(&count);
 	if (products == NULL)
 	{
 		return false;
 	}
 
-	for (int i = 0; products[i] != NULL; i++)
+	for (int i = 0; i < count; i++)
 	{
 		if (strcmp(products[i]->name, name) == 0)
 		{
@@ -90,6 +92,7 @@ bool stg_find_product_by_name(Product *product, const char *name)
 		}
 	}
 
+	free_products(products);
 	return false;
 }
 
@@ -145,18 +148,19 @@ bool stg_update_product_quantity(Product *product)
 
 Product **stg_find_products_by_regex(char *regex)
 {
-	Product **products = stg_load_products();
+	int count = 0;
+	Product **products = stg_load_products(&count);
 	if (products == NULL)
 	{
 		return NULL;
 	}
 
 	Product **filtered = (Product **)malloc(sizeof(Product *));
-	int count = 0;
+	int filtered_count = 0;
 	char id[100];
 	char *name, *unit, *address;
 
-	for (int i = 0; products[i] != NULL; i++)
+	for (int i = 0; i < count; i++)
 	{
 		name = to_lower(products[i]->name);
 		unit = to_lower(products[i]->unit);
@@ -165,40 +169,40 @@ Product **stg_find_products_by_regex(char *regex)
 
 		if (strstr(name, regex) != NULL)
 		{
-			filtered = (Product **)realloc(filtered, sizeof(Product *) * (count + 1));
-			filtered[count] = products[i];
-			count++;
+			filtered = (Product **)realloc(filtered, sizeof(Product *) * (filtered_count + 1));
+			filtered[filtered_count] = products[i];
+			filtered_count++;
 			continue;
 		}
 
 		if (strstr(unit, regex) != NULL)
 		{
-			filtered = (Product **)realloc(filtered, sizeof(Product *) * (count + 1));
-			filtered[count] = products[i];
-			count++;
+			filtered = (Product **)realloc(filtered, sizeof(Product *) * (filtered_count + 1));
+			filtered[filtered_count] = products[i];
+			filtered_count++;
 			continue;
 		}
 
 		if (strstr(address, regex) != NULL)
 		{
-			filtered = (Product **)realloc(filtered, sizeof(Product *) * (count + 1));
-			filtered[count] = products[i];
-			count++;
+			filtered = (Product **)realloc(filtered, sizeof(Product *) * (filtered_count + 1));
+			filtered[filtered_count] = products[i];
+			filtered_count++;
 			continue;
 		}
 
 		sprintf(id, "%d", products[i]->id);
 		if (strstr(id, regex) != NULL)
 		{
-			filtered = (Product **)realloc(filtered, sizeof(Product *) * (count + 1));
-			filtered[count] = products[i];
-			count++;
+			filtered = (Product **)realloc(filtered, sizeof(Product *) * (filtered_count + 1));
+			filtered[filtered_count] = products[i];
+			filtered_count++;
 			continue;
 		}
 	}
 
-	filtered = (Product **)realloc(filtered, sizeof(Product *) * (count + 1));
-	filtered[count] = NULL;
+	filtered = (Product **)realloc(filtered, sizeof(Product *) * (filtered_count + 1));
+	filtered[filtered_count] = NULL;
 
 	return filtered;
 }
