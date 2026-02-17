@@ -7,7 +7,6 @@
 
 #ifdef _WIN32
 #include <windows.h>
-
 void timeout(int milliseconds)
 {
 	Sleep(milliseconds);
@@ -23,7 +22,8 @@ void timeout(int milliseconds)
 
 void config_output()
 {
-	setlocale(LC_ALL, "");
+	// setlocale(LC_ALL, "");
+	// setlocale(LC_NUMERIC, "C");
 }
 
 void get_input(char *input, int size)

@@ -125,7 +125,7 @@ void register_product()
 
 void product_entry()
 {
-	Product product;
+	Product product = {0};
 	bool result = false;
 	int id = -1;
 	float qtd = -1;
@@ -228,8 +228,9 @@ void product_exit()
 
 void load_products()
 {
-	Product **product_list = stg_load_products();
-	if (product_list == NULL || products_is_empty(product_list))
+	int product_count = 0;
+	Product **product_list = stg_load_products(&product_count);
+	if (product_count == 0)
 	{
 		showError("Nenhum produto cadastrado");
 		timeout(TIMEOUT);
@@ -237,7 +238,7 @@ void load_products()
 		return;
 	}
 
-	showProducts(product_list);
+	showProducts((const Product **)product_list);
 
 	timeout(TIMEOUT);
 	free_products(product_list);
@@ -248,6 +249,7 @@ void search_product()
 {
 	char name[256];
 	Product **product_list = NULL;
+	int product_count = 0;
 
 	printf("Digite o produto que deseja buscar:\n");
 	get_input(name, sizeof(name));
@@ -258,8 +260,8 @@ void search_product()
 		return;
 	}
 
-	product_list = stg_find_products_by_regex(name);
-	if (product_list == NULL || products_is_empty(product_list))
+	product_list = stg_find_products_by_regex(name, &product_count);
+	if (product_count == 0)
 	{
 		showError("Nenhum produto encontrado");
 		timeout(TIMEOUT);
@@ -267,7 +269,7 @@ void search_product()
 		return;
 	}
 
-	showProducts(product_list);
+	showProducts((const Product **)product_list);
 
 	timeout(TIMEOUT);
 	free_products(product_list);

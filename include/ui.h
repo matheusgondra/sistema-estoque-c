@@ -4,8 +4,8 @@
 #include "product.h"
 
 void showMenu();
-void showProducts(Product **products);
-void showProduct(Product *product);
-void showError(char *message);
+void showProducts(const Product **products);
+void showProduct(const Product *product);
+void showError(const char *message);
 
 #endif

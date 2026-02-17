@@ -29,16 +29,16 @@ void showMenu() {
   printf("* 5. Baixa de itens           *\n");
   printf("* 0. Sair                     *\n");
   printf("*******************************\n");
-	printf("Digite a op‡Æo desejada: ");
+	printf("Digite a opÃ§Ã£o desejada: ");
 }
 
-void showProducts(Product **product) {
+void showProducts(const Product **product) {
 	clear_terminal();
 
 	printf("*******************************\n");
 	printf("*        LISTA DE ITENS       *\n");
 	printf("*******************************\n");
-	printf("* ID | NOME | UNIDADE | ENDERE€O | QUANTIDADE\n");
+	printf("* ID | NOME | UNIDADE | ENDEREÃ‡O | QUANTIDADE\n");
 	printf("*******************************\n");
 
 	for (int i = 0; product[i] != NULL; i++) {
@@ -48,19 +48,19 @@ void showProducts(Product **product) {
 	printf("*******************************\n");
 }
 
-void showProduct(Product *product) {
+void showProduct(const Product *product) {
 	clear_terminal();
 
 	printf("*******************************\n");
 	printf("* ID: %d\n", product->id);
 	printf("* NOME: %s\n", product->name);
 	printf("* UNIDADE: %s\n", product->unit);
-	printf("* ENDERE€O: %s\n", product->address);
+	printf("* ENDEREÃ‡O: %s\n", product->address);
 	printf("* QUANTIDADE: %.2f\n", product->quantity);
 	printf("*******************************\n");
 }
 
-void showError(char *message) {
+void showError(const char *message) {
 	clear_terminal();
 
 	printf("*******************************\n");

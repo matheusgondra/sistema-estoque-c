@@ -117,7 +117,10 @@ bool stg_update_product_quantity(Product *product)
 
 	while (fgets(line, sizeof(line), file))
 	{
-		sscanf(line, "%d", &current_id);
+		if (sscanf(line, "%d,", &current_id) != 1) {
+			fputs(line, temp);
+			continue;
+		}
 
 		if (current_id == product->id)
 		{
@@ -146,10 +149,10 @@ bool stg_update_product_quantity(Product *product)
 	return found;
 }
 
-Product **stg_find_products_by_regex(char *regex)
+Product **stg_find_products_by_regex(char *regex, int *count)
 {
-	int count = 0;
-	Product **products = stg_load_products(&count);
+	*count = 0;
+	Product **products = stg_load_products(count);
 	if (products == NULL)
 	{
 		return NULL;
@@ -160,7 +163,7 @@ Product **stg_find_products_by_regex(char *regex)
 	char id[100];
 	char *name, *unit, *address;
 
-	for (int i = 0; i < count; i++)
+	for (int i = 0; i < *count; i++)
 	{
 		name = to_lower(products[i]->name);
 		unit = to_lower(products[i]->unit);
