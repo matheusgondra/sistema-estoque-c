@@ -100,6 +100,7 @@ void register_product()
 	if (!check_product(&product))
 	{
 		showError("Erro ao cadastrar produto");
+		timeout(TIMEOUT);
 		return;
 	}
 
@@ -115,6 +116,7 @@ void register_product()
 	if (!result)
 	{
 		showError("Erro ao salvar produto");
+		timeout(TIMEOUT);
 		return;
 	}
 
