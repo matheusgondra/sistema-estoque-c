@@ -11,12 +11,23 @@ void timeout(int milliseconds)
 {
 	Sleep(milliseconds);
 }
+
+void pause_ui()
+{
+	system("pause");
+}
 #else
 #include <unistd.h>
 
 void timeout(int milliseconds)
 {
 	usleep(milliseconds * 1000);
+}
+
+void pause_ui()
+{
+	printf("Pressione Enter para continuar...");
+	getchar();
 }
 #endif
 

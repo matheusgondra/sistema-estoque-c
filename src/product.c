@@ -45,6 +45,15 @@ void create_product(Product *product, char *name, char *unit, char *address)
 	product->quantity = 0;
 }
 
+void create_product_with_id(Product *product, int id, char *name, char *unit, char *address)
+{
+	product->id = id;
+	strcpy(product->name, name);
+	strcpy(product->unit, unit);
+	strcpy(product->address, address);
+	product->quantity = 0;
+}
+
 bool check_product(Product *product)
 {
 	if (product == NULL)

@@ -120,7 +120,7 @@ void register_product()
 
 	printf("Produto cadastrado com sucesso\n");
 	showProduct(&product);
-	system("pause");
+	pause_ui();
 }
 
 void product_entry()
@@ -175,9 +175,8 @@ void product_entry()
 	showProduct(&product);
 	printf("Entrada de produto realizada com sucesso\n");
 
-	free_product(&product);
 	timeout(TIMEOUT);
-	system("pause");
+	pause_ui();
 }
 
 void product_exit()
@@ -223,7 +222,7 @@ void product_exit()
 	printf("Saída de produto realizada com sucesso\n");
 
 	timeout(TIMEOUT);
-	system("pause");
+	pause_ui();
 }
 
 void load_products()
@@ -242,7 +241,7 @@ void load_products()
 
 	timeout(TIMEOUT);
 	free_products(product_list);
-	system("pause");
+	pause_ui();
 }
 
 void search_product()
@@ -273,5 +272,5 @@ void search_product()
 
 	timeout(TIMEOUT);
 	free_products(product_list);
-	system("pause");
+	pause_ui();
 }

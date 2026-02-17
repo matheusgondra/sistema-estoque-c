@@ -57,16 +57,14 @@ bool stg_find_product(Product *product, int id)
 	{
 		if (products[i]->id == id)
 		{
-			product->id = products[i]->id;
-			create_product(product, products[i]->name, products[i]->unit, products[i]->address);
+			create_product_with_id(product, products[i]->id, products[i]->name, products[i]->unit, products[i]->address);
 			product->quantity = products[i]->quantity;
-			free(products[i]);
 
 			return true;
 		}
 	}
 
-	free(products);
+	free_products(products);
 	return false;
 }
 
