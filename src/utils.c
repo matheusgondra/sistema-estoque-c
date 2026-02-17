@@ -1,6 +1,6 @@
 #include <stdio.h>
-#include <windows.h>
 #include <string.h>
+#include <stdlib.h>
 #include <locale.h>
 #include <ctype.h>
 #include "utils.h"
@@ -17,13 +17,13 @@ void timeout(int milliseconds)
 
 void timeout(int milliseconds)
 {
-	sleep(milliseconds * 1000);
+	usleep(milliseconds * 1000);
 }
 #endif
 
 void config_output()
 {
-	setlocale(LC_ALL, "Portuguese");
+	setlocale(LC_ALL, "");
 }
 
 void get_input(char *input, int size)
