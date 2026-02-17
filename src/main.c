@@ -5,13 +5,15 @@
 #include "storage.h"
 #include "ui.h"
 
-#define REGISTER_PRODUCT 1
-#define LOAD_PRODUCTS 2
-#define SEARCH_PRODUCT 3
-#define PRODUCT_ENTRY 4
-#define PRODUCT_EXIT 5
-
 #define TIMEOUT SECOND * 2
+
+typedef enum menu_option {
+	REGISTER_PRODUCT = 1,
+	LOAD_PRODUCTS,
+	SEARCH_PRODUCT,
+	PRODUCT_ENTRY,
+	PRODUCT_EXIT
+} MenuOption;
 
 void register_product();
 void load_products();
@@ -231,7 +233,7 @@ void load_products()
 	{
 		showError("Nenhum produto cadastrado");
 		timeout(TIMEOUT);
-		free_products(product_list);
+		// free_products(product_list);
 		return;
 	}
 
