@@ -5,7 +5,7 @@
 #include "product.h"
 #include "utils.h"
 
-int get_id()
+static int get_id()
 {
 	FILE *file;
 	int id = 1;
@@ -105,4 +105,27 @@ bool put_product_quantity(Product *product, float quantity)
 	product->quantity += quantity;
 
 	return true;
+}
+
+void create_product_list(ProductList *list) {
+	const int initial_capacity = 20;
+	list->items = (Product *) malloc(initial_capacity * sizeof(Product));
+	if (list->items == NULL) {
+		fprintf(stderr, "Failed to allocate memory for product list.\n");
+		exit(EXIT_FAILURE);
+	}
+
+	list->size = 0;
+	list->capacity = initial_capacity;
+}
+
+void free_product_list(ProductList *list) {
+	if (list != NULL) {
+		if (list->items != NULL) {
+			free(list->items);
+		}
+	}
+
+	list->size = 0;
+	list->capacity = 0;
 }
