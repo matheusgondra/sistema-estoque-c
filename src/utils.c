@@ -40,8 +40,8 @@ void config_output()
 void get_input(char *input, int size)
 {
 	fgets(input, size, stdin);
-	fflush(stdin);
-
+	clear_input_buffer();
+	
 	size_t len = strlen(input);
 
 	if (len > 0 && input[len - 1] == '\n')
@@ -71,12 +71,7 @@ char *to_lower(const char *str)
 
 bool is_blank(const char *input)
 {
-	if (strlen(input) == 0 || isblank(input[0]))
-	{
-		return true;
-	}
-
-	return false;
+	return strlen(input) == 0 || isblank(input[0]);
 }
 
 void clear_input_buffer() 
