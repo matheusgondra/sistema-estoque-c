@@ -2,9 +2,9 @@
     "version": "2.0.0",
     "tasks": [
         {
-            "label": "build project",
+            "label": "Build do projeto",
             "type": "shell",
-            "command": "make",
+            "command": "make clean && make",
             "group": {
                 "kind": "build",
                 "isDefault": true

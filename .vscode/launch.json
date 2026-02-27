@@ -2,7 +2,7 @@
     "version": "0.2.0",
     "configurations": [
         {
-            "name": "Debug (GDB)",
+            "name": "Depurar sistema de estoque",
             "type": "cppdbg",
             "request": "launch",
             "program": "${workspaceFolder}/sistema-de-estoque.exe",
@@ -19,7 +19,7 @@
                     "ignoreFailures": true
                 }
             ],
-            "preLaunchTask": "build project"
+            "preLaunchTask": "Build do projeto"
         }
     ]
 }

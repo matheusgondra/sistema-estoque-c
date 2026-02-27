@@ -40,10 +40,9 @@ void config_output()
 void get_input(char *input, int size)
 {
 	fgets(input, size, stdin);
-	clear_input_buffer();
 	
 	size_t len = strlen(input);
-
+	
 	if (len > 0 && input[len - 1] == '\n')
 	{
 		input[len - 1] = '\0';

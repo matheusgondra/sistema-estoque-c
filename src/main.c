@@ -65,11 +65,11 @@ int main()
 
 void register_product()
 {
-	Product product;
+	Product product = {0};
 	bool result = false;
 	char name[256], unit[10], address[50];
 
-	printf("Digite o nome do produto \n");
+	printf("Digite o nome do produto: ");
 	get_input(name, sizeof(name));
 	if (is_blank(name))
 	{
@@ -183,7 +183,7 @@ void product_entry()
 
 void product_exit()
 {
-	Product product;
+	Product product = {0};
 	bool result = false;
 	int id = -1;
 	float qtd = -1;
@@ -229,28 +229,30 @@ void product_exit()
 
 void load_products()
 {
-	int product_count = 0;
-	Product **product_list = stg_load_products(&product_count);
-	if (product_count == 0)
+	ProductList list = {0};
+	create_product_list(&list);
+
+	bool result = stg_load_products(&list);
+	if (!result)
 	{
 		showError("Nenhum produto cadastrado");
 		timeout(TIMEOUT);
-		free_products(product_list);
+		free_product_list(&list);
 		return;
 	}
 
-	showProducts((const Product **)product_list);
+	showProducts(&list);
 
 	timeout(TIMEOUT);
-	free_products(product_list);
+	free_product_list(&list);
 	pause_ui();
 }
 
 void search_product()
 {
 	char name[256];
-	Product **product_list = NULL;
-	int product_count = 0;
+	ProductList product_list = {0};
+	create_product_list(&product_list);
 
 	printf("Digite o produto que deseja buscar:\n");
 	get_input(name, sizeof(name));
@@ -261,18 +263,26 @@ void search_product()
 		return;
 	}
 
-	product_list = stg_find_products_by_regex(name, &product_count);
-	if (product_count == 0)
+	bool result = stg_find_products_by_regex(&product_list, name);
+	if (!result)
 	{
-		showError("Nenhum produto encontrado");
+		showError("Erro ao buscar produtos");
 		timeout(TIMEOUT);
-		free_products(product_list);
+		free_product_list(&product_list);
 		return;
 	}
 
-	showProducts((const Product **)product_list);
+	if (product_list.size == 0)
+	{
+		showError("Nenhum produto encontrado");
+		timeout(TIMEOUT);
+		free_product_list(&product_list);
+		return;
+	}
+
+	showProducts(&product_list);
 
 	timeout(TIMEOUT);
-	free_products(product_list);
+	free_product_list(&product_list);
 	pause_ui();
 }
