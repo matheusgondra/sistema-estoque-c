@@ -27,7 +27,9 @@ void free_product(Product *product);
 void free_products(Product **products);
 bool put_product_quantity(Product *product, float quantity);
 bool products_is_empty(Product **products);
+
 void create_product_list(ProductList *list);
 void free_product_list(ProductList *list);
+bool add_product_to_list(ProductList *list, Product *product);
 
 #endif

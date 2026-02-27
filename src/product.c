@@ -129,3 +129,20 @@ void free_product_list(ProductList *list) {
 	list->size = 0;
 	list->capacity = 0;
 }
+
+bool add_product_to_list(ProductList *list, Product *product) {
+	if (list->size >= list->capacity) {
+		size_t new_capacity = list->capacity * 2;
+		Product *new_items = (Product *) realloc(list->items, new_capacity * sizeof(Product));
+		if (new_items == NULL) {
+			fprintf(stderr, "Failed to reallocate memory for product list.\n");
+			return false;
+		}
+
+		list->items = new_items;
+		list->capacity = new_capacity;
+	}
+
+	list->items[list->size++] = *product;
+	return true;
+}
