@@ -145,6 +145,8 @@ void product_entry()
 		return;
 	}
 
+	showProduct(&product);
+
 	printf("Digite a quantidade de entrada do produto:\n");
 	scanf("%f", &qtd);
 	clear_input_buffer();
