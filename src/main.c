@@ -38,17 +38,17 @@ int main()
 		case REGISTER_PRODUCT:
 			register_product();
 			break;
-		case PRODUCT_ENTRY:
-			product_entry();
-			break;
-		case PRODUCT_EXIT:
-			product_exit();
-			break;
 		case LOAD_PRODUCTS:
 			load_products();
 			break;
 		case SEARCH_PRODUCT:
 			search_product();
+			break;
+		case PRODUCT_ENTRY:
+			product_entry();
+			break;
+		case PRODUCT_EXIT:
+			product_exit();
 			break;
 		default:
 			showError("Opção inválida");
@@ -60,7 +60,8 @@ int main()
 		scanf("%d", &option);
 		clear_input_buffer();
 	}
-	return 0;
+	
+	return EXIT_SUCCESS;
 }
 
 void register_product()
