@@ -10,6 +10,7 @@ build/
 
 # Data files
 *.csv
+id.txt
 
 # Linker output
 *.ilk
@@ -33,6 +34,7 @@ build/
 *.dylib
 
 # Executables
+sistema-de-estoque*
 *.exe
 *.out
 *.app
@@ -57,3 +59,4 @@ dkms.conf
 
 # debug information files
 *.dwo
+

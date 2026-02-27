@@ -5,7 +5,7 @@ CC = gcc
 CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8 -g
 
 # Nome do executável final
-TARGET = sistema-de-estoque.exe
+TARGET = sistema-de-estoque
 
 # Lista de arquivos .c na pasta src
 SRC = src/file-storage.c src/main.c src/product.c src/terminal-ui.c src/utils.c
