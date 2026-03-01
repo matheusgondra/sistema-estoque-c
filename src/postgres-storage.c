@@ -1,8 +1,14 @@
-#include "storage.h"
 #include <stdlib.h>
 #include <stdbool.h>
 #include <string.h>
 #include <libpq-fe.h>
+#include "storage.h"
+#include "utils.h"
+
+typedef enum pq_result_type {
+    TEXT,
+    BINARY
+} PGResultType;
 
 static const char *get_connect_url() {
     char *user = getenv("DB_USER");
@@ -68,7 +74,7 @@ bool stg_save_product(Product *product) {
     const char *query = "INSERT INTO products (name, unit, address, quantity) VALUES ($1, $2, $3, $4) RETURNING id";
     
     char quantity_str[50];
-    snprintf(quantity_str, sizeof(quantity_str), "%.2f", product->quantity);
+    float_to_str(product->quantity, quantity_str, sizeof(quantity_str));
     
     const char *paramValues[4] = {
         product->name,
@@ -77,7 +83,7 @@ bool stg_save_product(Product *product) {
         quantity_str
     };
 
-    PGresult *resultQuery = PQexecParams(conn, query, 4, NULL, paramValues, NULL, NULL, 0);
+    PGresult *resultQuery = PQexecParams(conn, query, 4, NULL, paramValues, NULL, NULL, TEXT);
     if (PQresultStatus(resultQuery) != PGRES_TUPLES_OK) {
         printf("Falha na query\n %s", PQerrorMessage(conn));
         printf("Detalhes: %s\n", PQresultErrorMessage(resultQuery));
@@ -137,13 +143,13 @@ bool stg_find_product(Product *product, int id) {
     }
 
     char id_str[12];
-    snprintf(id_str, sizeof(id_str), "%d", id);
+    int_to_str(id, id_str, sizeof(id_str));
 
     const char *query = "SELECT id, name, unit, address, quantity FROM products WHERE id = $1";
     const char paramValues[1] = { id_str };
 
 
-    PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, 0);
+    PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, TEXT);
     if (PQresultStatus(result) != PGRES_TUPLES_OK) {
         fprintf(stderr, "Erro ao buscar produto: %s\n", PQerrorMessage(conn));
         finish_query(result, conn);
@@ -167,7 +173,30 @@ bool stg_find_product(Product *product, int id) {
 }
 
 bool stg_update_product_quantity(Product *product) {
+    PGconn *conn = PQconnectdb(get_connect_url());
+    if (!check_connection(conn)) {
+        PQfinish(conn);
+        return false;
+    }
 
+    char id_str[12];
+    int_to_str(product->id, id_str, sizeof(id_str));
+
+    char quantity_str[50];
+    float_to_str(product->quantity, quantity_str, sizeof(quantity_str));
+
+    const char *query = "UPDATE products SET quantity = $1 WHERE id = $2";
+    const char *paramValues[2] = { quantity_str, id_str };
+
+    PGresult *result = PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, TEXT);
+    if (PQresultStatus(result) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Erro ao atualizar produto: %s\n", PQerrorMessage(conn));
+        finish_query(result, conn);
+        return false;
+    }
+
+    finish_query(result, conn);
+    return true;
 }
 
 Product **stg_find_products_by_regex(char *regex) {

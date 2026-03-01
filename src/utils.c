@@ -78,3 +78,11 @@ void clear_input_buffer()
 	int c;
 	while ((c = getchar()) != '\n' && c != EOF) {}
 }
+
+void int_to_str(int value, char *str, size_t size) {
+	snprintf(str, size, "%d", value);
+}
+
+void float_to_str(float value, char *str, size_t size) {
+	snprintf(str, size, "%.2f", value);
+}
