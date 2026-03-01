@@ -5,40 +5,9 @@
 #include "product.h"
 #include "utils.h"
 
-static int get_id()
-{
-	FILE *file;
-	int id = 1;
-
-	file = fopen("id.txt", "a+");
-	if (file == NULL)
-	{
-		perror("Erro ao abrir o arquivo");
-		exit(EXIT_FAILURE);
-	}
-
-	if (fscanf(file, "%d", &id) == 1)
-	{
-		id++;
-	}
-	fclose(file);
-
-	file = fopen("id.txt", "w");
-	if (file == NULL)
-	{
-		perror("Erro ao abrir o arquivo");
-		exit(EXIT_FAILURE);
-	}
-
-	fprintf(file, "%d", id);
-	fclose(file);
-
-	return id;
-}
-
 void create_product(Product *product, char *name, char *unit, char *address)
 {
-	product->id = get_id();
+	product->id = 0;
 	strcpy(product->name, name);
 	strcpy(product->unit, unit);
 	strcpy(product->address, address);
