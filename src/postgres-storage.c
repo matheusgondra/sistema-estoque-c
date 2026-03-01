@@ -49,10 +49,11 @@ bool stg_save_product(Product *product) {
     PGconn *conn = PQconnectdb(get_connect_url());
     if (PQstatus(conn) != CONNECTION_OK) {
         printf("Erro ao conectar ao banco\n");
+        PQfinish(conn);
         return false;
     }
 
-    const char *query = "INSERT INTO products (name, unit, address, quantity) VALUES ($1, $2, $3, $4)";
+    const char *query = "INSERT INTO products (name, unit, address, quantity) VALUES ($1, $2, $3, $4) RETURNING id";
     
     char quantity_str[50];
     snprintf(quantity_str, sizeof(quantity_str), "%.2f", product->quantity);
@@ -63,21 +64,19 @@ bool stg_save_product(Product *product) {
         product->address,
         quantity_str
     };
-    const int paramLengths[4] = {
-        (int) strlen(paramValues[0]),
-        (int) strlen(paramValues[1]),
-        (int) strlen(paramValues[2]),
-        (int) strlen(paramValues[3])
-    };
-    const int paramFormats[4] = { 0, 0, 0, 0 };
 
-    PGresult *resultQuery = PQexecParams(conn, query, 4, NULL, paramValues, paramLengths, paramFormats, 0);
-    if (PQresultStatus(resultQuery) != PGRES_COMMAND_OK) {
-        
+    PGresult *resultQuery = PQexecParams(conn, query, 4, NULL, paramValues, NULL, NULL, 0);
+    if (PQresultStatus(resultQuery) != PGRES_TUPLES_OK) {
         printf("Falha na query\n %s", PQerrorMessage(conn));
         printf("Detalhes: %s\n", PQresultErrorMessage(resultQuery));
+
+        PQclear(resultQuery);
+        PQfinish(conn);
         return false;
     }
+
+    char *id_str = PQgetvalue(resultQuery, 0, 0);
+    product->id = atoi(id_str);
 
     PQclear(resultQuery);
     PQfinish(conn);
