@@ -64,6 +64,16 @@ static void finish_query(PGresult *result, PGconn *conn) {
     PQfinish(conn);
 }
 
+static bool regex_match(const char *string, const char *pattern) {
+    bool match = false;
+
+    if (strstr(string, pattern) != NULL) {
+        match = true;
+    }
+    
+    return match;
+}
+
 bool stg_save_product(Product *product) {
     PGconn *conn = PQconnectdb(get_connect_url());
     if (!check_connection(conn)) {
@@ -199,8 +209,37 @@ bool stg_update_product_quantity(Product *product) {
     return true;
 }
 
-Product **stg_find_products_by_regex(char *regex) {
+void stg_find_products_by_regex(ProductList *list, const char *regex) {
+    stg_load_products(list);
 
+    ProductList filtered_list = {0};
+    create_product_list(&filtered_list);
+
+    char id_str[12];
+    char quantity_str[50];
+
+    for (size_t i = 0; i < list->size; i++) {
+        Product *product = &list->items[i];
+
+        int_to_str(product->id, id_str, sizeof(id_str));
+        float_to_str(product->quantity, quantity_str, sizeof(quantity_str));
+
+        bool name_match = regex_match(product->name, regex);
+        bool unit_match = regex_match(product->unit, regex);
+        bool address_match = regex_match(product->address, regex);
+        bool id_match = regex_match(id_str, regex);
+        bool quantity_match = regex_match(quantity_str, regex);
+
+        bool match = name_match || unit_match || address_match || id_match || quantity_match;
+
+        if (match) {
+            add_product_to_list(&filtered_list, product);
+        }        
+    }
+
+    free_product_list(list);
+
+    *list = filtered_list;
 }
 
 bool stg_find_product_by_name(Product *product, const char *name) {
