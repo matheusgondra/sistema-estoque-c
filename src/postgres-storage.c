@@ -111,7 +111,7 @@ bool stg_save_product(Product *product) {
     return true;
 }
 
-void stg_load_products(ProductList *list) {
+bool stg_load_products(ProductList *list) {
     PGconn *conn = PQconnectdb(get_connect_url());
     if (!check_connection(conn)) {
         PQfinish(conn);
@@ -156,7 +156,7 @@ bool stg_find_product(Product *product, int id) {
     int_to_str(id, id_str, sizeof(id_str));
 
     const char *query = "SELECT id, name, unit, address, quantity FROM products WHERE id = $1";
-    const char paramValues[1] = { id_str };
+    const char *paramValues[1] = { id_str };
 
 
     PGresult *result = PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, TEXT);
@@ -176,7 +176,8 @@ bool stg_find_product(Product *product, int id) {
     product->id = atoi(PQgetvalue(result, 0, 0));
     strcpy(product->name, PQgetvalue(result, 0, 1));
     strcpy(product->unit, PQgetvalue(result, 0, 2));
-    product->quantity = atof(PQgetvalue(result, 0, 3));
+    strcpy(product->address, PQgetvalue(result, 0, 3));
+    product->quantity = atof(PQgetvalue(result, 0, 4));
 
     finish_query(result, conn);
     return true;
@@ -209,7 +210,7 @@ bool stg_update_product_quantity(Product *product) {
     return true;
 }
 
-void stg_find_products_by_regex(ProductList *list, const char *regex) {
+bool stg_find_products_by_regex(ProductList *list, const char *regex) {
     stg_load_products(list);
 
     ProductList filtered_list = {0};
@@ -217,6 +218,8 @@ void stg_find_products_by_regex(ProductList *list, const char *regex) {
 
     char id_str[12];
     char quantity_str[50];
+    char *regex_normalized = to_lower(regex);
+    bool match = false;
 
     for (size_t i = 0; i < list->size; i++) {
         Product *product = &list->items[i];
@@ -224,13 +227,15 @@ void stg_find_products_by_regex(ProductList *list, const char *regex) {
         int_to_str(product->id, id_str, sizeof(id_str));
         float_to_str(product->quantity, quantity_str, sizeof(quantity_str));
 
-        bool name_match = regex_match(product->name, regex);
-        bool unit_match = regex_match(product->unit, regex);
-        bool address_match = regex_match(product->address, regex);
-        bool id_match = regex_match(id_str, regex);
-        bool quantity_match = regex_match(quantity_str, regex);
+        char *name_normalized = to_lower(product->name);
 
-        bool match = name_match || unit_match || address_match || id_match || quantity_match;
+        bool name_match = regex_match(name_normalized, regex_normalized);
+        bool unit_match = regex_match(product->unit, regex_normalized);
+        bool address_match = regex_match(product->address, regex_normalized);
+        bool id_match = regex_match(id_str, regex_normalized);
+        bool quantity_match = regex_match(quantity_str, regex_normalized);
+
+        match = name_match || unit_match || address_match || id_match || quantity_match;
 
         if (match) {
             add_product_to_list(&filtered_list, product);
@@ -240,6 +245,7 @@ void stg_find_products_by_regex(ProductList *list, const char *regex) {
     free_product_list(list);
 
     *list = filtered_list;
+    return match;
 }
 
 bool stg_find_product_by_name(Product *product, const char *name) {

@@ -1,14 +1,19 @@
 # Compilador
 CC = gcc
 
+# PostgreSQL includes e libs
+PG_CONFIG = pg_config
+PG_CFLAGS = -I$(shell $(PG_CONFIG) --includedir)
+PG_LIBS = -L$(shell $(PG_CONFIG) --libdir) -lpq
+
 # Flags de compilação
-CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8 -g
+CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8 -g $(PG_CFLAGS)
 
 # Nome do executável final
 TARGET = sistema-de-estoque
 
 # Lista de arquivos .c na pasta src
-SRC = src/file-storage.c src/main.c src/product.c src/terminal-ui.c src/utils.c
+SRC = src/postgres-storage.c src/main.c src/product.c src/terminal-ui.c src/utils.c
 
 # Converte cada arquivo .c em objeto .o na pasta build
 OBJ = $(SRC:src/%.c=build/%.o)
@@ -18,7 +23,7 @@ all: $(TARGET)
 
 # Gera o executável a partir dos objetos
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) -o $@
+	$(CC) $(OBJ) $(PG_LIBS) -o $@
 
 # Regra para compilar cada arquivo .c em .o
 build/%.o: src/%.c
