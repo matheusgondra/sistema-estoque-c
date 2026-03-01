@@ -17,11 +17,11 @@ O projeto foi dividido em vários arquivo para ser mais escalavel e de fácil ma
 - `main.c` -> fluxo principal da aplicação
 - `product.c` -> funções relacionadas a manipulação de produtos
 - `terminal-ui.c` -> funções relacionadas a interface de usuário no terminal
-- `file-storage.c` -> funções relacionadas a manupilação de arquivos para o armazenamento do sistema
+- `postgres-storage.c` -> funções relacionadas ao PostgreSQL para o armazenamento do sistema
 
 ## Compilação
 
-O projeto foi desenvolvido no Windows e o arquivo `Makefile` pode ser executado para compilar o programa. Para isso é apenas necessário ter instalado o compilador **GCC** e o utilitário **make**.
+O `makefile` pode ser executado para compilar o projeto. Para isso é apenas necessário ter instalado o compilador **GCC** e o utilitário **make**.
 
 ```bash
 make
@@ -29,4 +29,12 @@ make
 
 ## Execução
 
-Com o programa compilado será gerado um arquivo `sistema-de-estoque.exe` que você pode executar para iniciar o sistema.
+Crie a variável de ambiente `DATABASE_URL` com a string de conexão do banco de dados PostgreSQL onde o sistema irá armazenar os dados. Caso não defina a variável, o sistema irá tentar se conectar ao banco de dados usando a string de conexão padrão `postgresql://dev:dev@localhost:5432/sistema_estoque_c`.
+
+Rode as migrações que estão na pasta `migrations` para criar a tabela necessária para o sistema funcionar.
+
+```bash
+psql -U user -d database -f migrations/V1__create-table-product.sql
+```
+
+Com o programa compilado será gerado um arquivo `sistema-de-estoque` que você pode executar para iniciar o sistema.
