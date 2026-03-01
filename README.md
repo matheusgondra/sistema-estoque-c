@@ -14,11 +14,25 @@ As funcionalidade atuais do sistema incluem:
 
 O projeto foi dividido em vários arquivo para ser mais escalavel e de fácil manutênção
 
+### Cabeçalhos
+
+Na pasta `include` estão os arquivos de cabeçalho do projeto, que definem as interfaces para as diferentes partes do sistema e as estruturas de dados utilizadas:
+
+- `product.h` -> definição da estrutura de dados do produto e funções relacionadas
+- `ui.h` -> definição das funções relacionadas a interface de usuário
+- `storage.h` -> definição das funções relacionadas ao armazenamento dos dados
+- `utils.h` -> definição de funções utilitárias para o sistema
+
+### Fontes
+
+Na pasta `src` estão os arquivos de código fonte do projeto, que implementam as funcionalidades definidas nos cabeçalhos:
+
 - `main.c` -> fluxo principal da aplicação
-- `product.c` -> funções relacionadas a manipulação de produtos
-- `terminal-ui.c` -> funções relacionadas a interface de usuário no terminal
-- `postgres-storage.c` -> funções relacionadas ao PostgreSQL para o armazenamento do sistema
-- `utils.c` -> funções utilitárias para o sistema
+- `product.c` -> implmenetação do cabelalho `product.h`
+- `terminal-ui.c` -> implementação do cabeçalho `ui.h` para uma interface de terminal
+- `postgres-storage.c` -> implementação do cabeçalho `storage.h` para armazenamento em um banco de dados PostgreSQL
+- `file-storage.c` -> implementação do cabeçalho `storage.h` para armazenamento em arquivos (Não utilizado atualmente)
+- `utils.c` -> implementação do cabeçalho `utils.h`
 
 ## Compilação
 
