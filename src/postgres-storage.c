@@ -243,5 +243,20 @@ void stg_find_products_by_regex(ProductList *list, const char *regex) {
 }
 
 bool stg_find_product_by_name(Product *product, const char *name) {
+    ProductList list = {0};
+    create_product_list(&list);
+    
+    stg_load_products(&list);
+    
+    for (size_t i = 0; i < list.size; i++) {
+        Product *current_product = &list.items[i];
+        if (strcmp(current_product->name, name) == 0) {
+            *product = *current_product;
+            free_product_list(&list);
+            return true;
+        }
+    }
 
+    free_product_list(&list);
+    return false;
 }
