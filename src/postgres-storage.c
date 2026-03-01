@@ -11,44 +11,12 @@ typedef enum pq_result_type {
 } PGResultType;
 
 static const char *get_connect_url() {
-    char *user = getenv("DB_USER");
-    if (!user) {
-        user = "dev";
-    }
-    
-    char *password = getenv("DB_PASSWORD");
-    if (!password) {
-        password = "dev";
+    char *url = getenv("DATABASE_URL");
+    if (url == NULL) {
+        url = "postgres://dev:dev@localhost:5432/sistema_estoque_c";
     }
 
-    char *dbname = getenv("DB_NAME");
-    if (!dbname) {
-        dbname = "sistema_estoque_c";
-    }
-
-    char *host = getenv("DB_HOST");
-    if (!host) {
-        host = "localhost";
-    }
-
-    char *port = getenv("DB_PORT");
-    if (!port) {
-        port = "5432";
-    }
-
-    static char conninfo[256];
-    strcpy(conninfo, "postgres://");
-    strcat(conninfo, user);
-    strcat(conninfo, ":");
-    strcat(conninfo, password);
-    strcat(conninfo, "@");
-    strcat(conninfo, host);
-    strcat(conninfo, ":");
-    strcat(conninfo, port);
-    strcat(conninfo, "/");
-    strcat(conninfo, dbname);
-
-    return conninfo;
+    return url;
 }
 
 static bool check_connection(PGconn *conn) {
