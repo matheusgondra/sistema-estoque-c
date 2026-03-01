@@ -18,6 +18,7 @@ O projeto foi dividido em vários arquivo para ser mais escalavel e de fácil ma
 - `product.c` -> funções relacionadas a manipulação de produtos
 - `terminal-ui.c` -> funções relacionadas a interface de usuário no terminal
 - `postgres-storage.c` -> funções relacionadas ao PostgreSQL para o armazenamento do sistema
+- `utils.c` -> funções utilitárias para o sistema
 
 ## Compilação
 
