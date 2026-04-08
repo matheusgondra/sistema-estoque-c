@@ -23,6 +23,12 @@ jobs:
     - name: Compilar o projeto
       run: make
 
+    - name: Salvar Artefato (Linux)
+      uses: actions/upload-artifact@v4
+      with:
+        name: sistema-estoque-linux
+        path: sistema-de-estoque
+
   build-windows:
     name: Build no Windows
     runs-on: windows-latest
@@ -46,12 +52,6 @@ jobs:
 
     - name: Compilar o projeto
       run: make
-
-    - name: Salvar Artefato (Linux)
-      uses: actions/upload-artifact@v4
-      with:
-        name: sistema-estoque-linux
-        path: sistema-de-estoque
 
     - name: Salvar Artefato (Windows)
       uses: actions/upload-artifact@v4
