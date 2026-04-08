@@ -53,3 +53,9 @@ psql -U user -d database -f migrations/V1__create-table-product.sql
 ```
 
 Com o programa compilado será gerado um arquivo `sistema-de-estoque` que você pode executar para iniciar o sistema.
+
+## Funcionalidades Futuras
+
+As seguintes funcionalidades serão integradas no projeto futuramente. Caso tenha segustões de funcionalidades abra uma issue no repositório contando sobre ela
+
+- Interface gráfica.
