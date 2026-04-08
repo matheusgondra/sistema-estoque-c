@@ -1,6 +1,6 @@
 # Sistem de Estoque C
 
-Este é um sistema de estoque simples para Windows desenvolvido na linguagem C.
+Este é um sistema de estoque simples desenvolvido na linguagem C.
 
 As funcionalidade atuais do sistema incluem:
 
