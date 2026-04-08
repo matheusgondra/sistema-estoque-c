@@ -1,61 +1,65 @@
-# Sistem de Estoque C
+*![English](https://flagcdn.com/20x15/us.png) [EN](README.md)* |  *![Português](https://flagcdn.com/20x15/br.png) [PT-BR](README.pt.md)*
 
-Este é um sistema de estoque simples desenvolvido na linguagem C.
+--- 
 
-As funcionalidade atuais do sistema incluem:
+# C Stock Management System
 
-- Cadastro de itens
-- Listagem de itens
-- Busca de item
-- Entrada de itens no estoque
-- Saída de itens do estoque
+This is a simple stock management system developed in C.
 
-## Estrutura do projeto
+The system's current features include:
 
-O projeto foi dividido em vários arquivo para ser mais escalavel e de fácil manutênção
+- Item registration
+- Item listing
+- Item search
+- Stock entry (Inbound)
+- Stock exit (Outbound)
 
-### Cabeçalhos
+## Project Structure
 
-Na pasta `include` estão os arquivos de cabeçalho do projeto, que definem as interfaces para as diferentes partes do sistema e as estruturas de dados utilizadas:
+The project was divided into several files to be more scalable and easier to maintain.
 
-- `product.h` -> definição da estrutura de dados do produto e funções relacionadas
-- `ui.h` -> definição das funções relacionadas a interface de usuário
-- `storage.h` -> definição das funções relacionadas ao armazenamento dos dados
-- `utils.h` -> definição de funções utilitárias para o sistema
+### Headers
 
-### Fontes
+The `include` folder contains the project's header files, which define the interfaces for the different parts of the system and the data structures used:
 
-Na pasta `src` estão os arquivos de código fonte do projeto, que implementam as funcionalidades definidas nos cabeçalhos:
+- `product.h` -> definition of the product data structure and related functions
+- `ui.h` -> definition of user interface related functions
+- `storage.h` -> definition of data storage related functions
+- `utils.h` -> definition of utility functions for the system
 
-- `main.c` -> fluxo principal da aplicação
-- `product.c` -> implmenetação do cabelalho `product.h`
-- `terminal-ui.c` -> implementação do cabeçalho `ui.h` para uma interface de terminal
-- `postgres-storage.c` -> implementação do cabeçalho `storage.h` para armazenamento em um banco de dados PostgreSQL
-- `file-storage.c` -> implementação do cabeçalho `storage.h` para armazenamento em arquivos (Não utilizado atualmente)
-- `utils.c` -> implementação do cabeçalho `utils.h`
+### Sources
 
-## Compilação
+The `src` folder contains the project's source code files, which implement the features defined in the headers:
 
-O `makefile` pode ser executado para compilar o projeto. Para isso é apenas necessário ter instalado o compilador **GCC** e o utilitário **make**.
+- `main.c` -> main application flow
+- `product.c` -> implementation of the `product.h` header
+- `terminal-ui.c` -> implementation of the `ui.h` header for a terminal interface
+- `postgres-storage.c` -> implementation of the `storage.h` header for PostgreSQL database storage
+- `file-storage.c` -> implementation of the `storage.h` header for file storage (Currently not used)
+- `utils.c` -> implementation of the `utils.h` header
+
+## Compilation
+
+The `makefile` can be executed to compile the project. To do this, you only need to have the **GCC** compiler and the **make** utility installed.
 
 ```bash
 make
 ```
 
-## Execução
+## Execution
 
-Crie a variável de ambiente `DATABASE_URL` com a string de conexão do banco de dados PostgreSQL onde o sistema irá armazenar os dados. Caso não defina a variável, o sistema irá tentar se conectar ao banco de dados usando a string de conexão padrão `postgresql://dev:dev@localhost:5432/sistema_estoque_c`.
+Create the `DATABASE_URL` environment variable with the PostgreSQL database connection string where the system will store its data. If you do not define this variable, the system will attempt to connect to the database using the default connection string `postgresql://dev:dev@localhost:5432/sistema_estoque_c`.
 
-Rode as migrações que estão na pasta `migrations` para criar a tabela necessária para o sistema funcionar.
+Run the migrations located in the `migrations` folder to create the necessary tables for the system to function.
 
 ```bash
 psql -U user -d database -f migrations/V1__create-table-product.sql
 ```
 
-Com o programa compilado será gerado um arquivo `sistema-de-estoque` que você pode executar para iniciar o sistema.
+Once the program is compiled, a `sistema-de-estoque` executable file will be generated, which you can run to start the system.
 
-## Funcionalidades Futuras
+## Future Features
 
-As seguintes funcionalidades serão integradas no projeto futuramente. Caso tenha segustões de funcionalidades abra uma issue no repositório contando sobre ela
+The following features will be integrated into the project in the future. If you have any feature suggestions, please open an issue in the repository telling us about it.
 
-- Interface gráfica.
+- Graphical interface.
