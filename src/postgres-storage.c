@@ -49,7 +49,7 @@ bool stg_init() {
         return false;
     }
 
-    const char *create_table_sql = "CREATE TABLE products ( "
+    const char *create_table_sql = "CREATE TABLE IF NOT EXISTS products ( "
                                     "id SERIAL PRIMARY KEY,"
                                     "name VARCHAR(255) NOT NULL, "
                                     "unit VARCHAR(50) NOT NULL, "
