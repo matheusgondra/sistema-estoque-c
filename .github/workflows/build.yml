@@ -1,0 +1,48 @@
+name: CI/CD Build
+
+on:
+  push:
+    branches: [ "develop" ]
+  pull_request:
+    branches: [ "develop" ]
+
+jobs:
+  build-linux:
+    name: Build no Linux (Ubuntu)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Clonar o repositório
+      uses: actions/checkout@v4
+      
+    - name: Instalar dependências (GCC, Make, Libpq)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libpq-dev
+        
+    - name: Compilar o projeto
+      run: make
+
+  build-windows:
+    name: Build no Windows
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+        
+    steps:
+    - name: Clonar o repositório
+      uses: actions/checkout@v4
+
+    - name: Configurar MSYS2 e dependências
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        install: >-
+          mingw-w64-x86_64-gcc
+          make
+          mingw-w64-x86_64-postgresql
+
+    - name: Compilar o projeto
+      run: make
