@@ -2,17 +2,22 @@
 CC = gcc
 
 ifeq ($(OS),Windows_NT)
-    # Tenta detectar a versão para montar o caminho automaticamente
-    PG_VERSION = $(shell psql --version | awk '{print $$3}' | cut -d. -f1)
-    PG_BASE = C:/Program Files/PostgreSQL/$(PG_VERSION)
-
-    PG_CFLAGS = -I"$(PG_BASE)/include"
-    # IMPORTANTE: No Windows, passamos o caminho da DLL diretamente em vez de -L e -lpq
-    PG_LIBS = "$(PG_BASE)/bin/libpq.dll" -lws2_32 -lsecur32 -ladvapi32 -lshell32
-    
-    # Comando para criar pasta no Windows (w64devkit usa mkdir -p, então mantemos)
-    MKDIR = mkdir -p
+    # Se a variável MSYSTEM estiver definida, estamos no MSYS2 (GitHub Actions)
+    ifdef MSYSTEM
+        PG_CONFIG = pg_config
+        PG_CFLAGS = -I$(shell $(PG_CONFIG) --includedir)
+        PG_LIBS = -L$(shell $(PG_CONFIG) --libdir) -lpq
+        MKDIR = mkdir -p
+    else
+        # Ambiente local do desenvolvedor (Windows nativo)
+        PG_VERSION = $(shell psql --version | awk '{print $$3}' | cut -d. -f1)
+        PG_BASE = C:/Program Files/PostgreSQL/$(PG_VERSION)
+        PG_CFLAGS = -I"$(PG_BASE)/include"
+        PG_LIBS = "$(PG_BASE)/bin/libpq.dll" -lws2_32 -lsecur32 -ladvapi32 -lshell32
+        MKDIR = mkdir -p
+    endif
 else
+    # Configuração Padrão Linux
     PG_CONFIG = pg_config
     PG_CFLAGS = -I$(shell $(PG_CONFIG) --includedir)
     PG_LIBS = -L$(shell $(PG_CONFIG) --libdir) -lpq
