@@ -40,25 +40,22 @@ jobs:
   build-windows:
     name: Build no Windows
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-        
+    
     steps:
     - name: Clonar o repositório
       uses: actions/checkout@v4
 
-    - name: Configurar MSYS2 e dependências
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: MINGW64
-        update: true
-        install: >-
-          mingw-w64-x86_64-gcc
-          make
-          mingw-w64-x86_64-postgresql
+    # Substituímos o MSYS2 pela instalação nativa do PostgreSQL 16 via Chocolatey.
+    # Isso cria a pasta "C:\Program Files\PostgreSQL\16" que o seu Makefile precisa.
+    - name: Instalar PostgreSQL (Windows)
+      run: |
+        choco install postgresql --version=16.4.0 -y --force
+        echo "C:\Program Files\PostgreSQL\16\bin" | Out-File -FilePath $env:GITHUB_PATH -Encoding utf8 -Append
 
+    # Usamos shell: bash para garantir que awk, cut e mkdir -p do seu Makefile funcionem.
+    # O windows-latest já possui o GCC embutido, então não precisamos instalar um compilador separado.
     - name: Compilar o projeto
+      shell: bash
       run: make
 
     - name: Salvar Artefato (Windows)
@@ -67,7 +64,6 @@ jobs:
         name: sistema-estoque-windows
         path: sistema-de-estoque.exe
 
-  
   release:
     name: Publicar Release
     needs: [build-linux, build-windows]
