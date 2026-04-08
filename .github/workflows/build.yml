@@ -1,13 +1,19 @@
-name: CI/CD Build
+name: CI/CD Build e Release
 
 on:
   push:
     branches: [ "develop" ]
+    tags:
+      - 'v*' # Aciona o workflow também quando uma tag tipo v1.0, v1.0.0 for criada
   pull_request:
     branches: [ "develop" ]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+# Dá permissão para o GitHub Actions escrever na aba de Releases do repositório
+permissions:
+  contents: write
 
 jobs:
   build-linux:
@@ -61,3 +67,25 @@ jobs:
       with:
         name: sistema-estoque-windows
         path: sistema-de-estoque.exe
+
+  # NOVO JOB: Cria a Release no GitHub
+  release:
+    name: Publicar Release
+    needs: [build-linux, build-windows] # Só roda DEPOIS que os dois builds terminarem
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/') # Só executa se for um push de Tag (versão)
+    
+    steps:
+    - name: Baixar todos os artefatos
+      uses: actions/download-artifact@v4
+      with:
+        path: executaveis
+        merge-multiple: true # Junta o .exe do Windows e o binário do Linux na mesma pasta
+
+    - name: Criar Release e Fazer Upload dos Arquivos
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          executaveis/sistema-de-estoque
+          executaveis/sistema-de-estoque.exe
+        generate_release_notes: true # Gera um texto automático com os commits da versão
