@@ -1,5 +1,6 @@
 #include <stdio.h>
 #include <stdlib.h>
+#include <signal.h>
 #include "utils.h"
 #include "product.h"
 #include "storage.h"
@@ -20,9 +21,21 @@ void load_products();
 void search_product();
 void product_entry();
 void product_exit();
+void say_bye();
+
+void handle_signal(int);
 
 int main()
 {
+	int atexit_result = atexit(say_bye);
+	if (atexit_result != 0) {
+		fprintf(stderr, "Erro ao registrar função de saída\n");
+		return EXIT_FAILURE;
+	}
+
+	signal(SIGINT, handle_signal);
+	signal(SIGTERM, handle_signal);
+
 	config_output();
 	bool result = stg_init();
 	if (!result) {
@@ -66,6 +79,18 @@ int main()
 	}
 	
 	return EXIT_SUCCESS;
+}
+
+void say_bye() 
+{
+	printf("\nBye!\n");
+}
+
+void handle_signal(int signal) 
+{
+	if (signal == SIGINT || signal == SIGTERM) {
+		exit(EXIT_SUCCESS);
+	}
 }
 
 void register_product()
