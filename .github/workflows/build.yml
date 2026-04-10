@@ -23,13 +23,13 @@ jobs:
     - name: Clonar o repositório
       uses: actions/checkout@v4
       
-    - name: Instalar dependências (GCC, Make, Libpq)
+    - name: Instalar dependências (GCC 15, Make, Libpq)
       run: |
         sudo apt-get update
-        sudo apt-get install -y build-essential libpq-dev
+        sudo apt-get install -y gcc-15 make libpq-dev
         
     - name: Compilar o projeto
-      run: make
+      run: make CC=gcc-15
 
     - name: Salvar Artefato (Linux)
       uses: actions/upload-artifact@v4
