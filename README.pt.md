@@ -48,15 +48,29 @@ make
 
 ## Execução
 
-Crie a variável de ambiente `DATABASE_URL` com a string de conexão do banco de dados PostgreSQL onde o sistema irá armazenar os dados. Caso não defina a variável, o sistema irá tentar se conectar ao banco de dados usando a string de conexão padrão `postgresql://dev:dev@localhost:5432/sistema_estoque_c`.
-
-Rode as migrações que estão na pasta `migrations` para criar a tabela necessária para o sistema funcionar.
-
-```bash
-psql -U user -d database -f migrations/V1__create-table-product.sql
-```
+Crie a variável de ambiente `DATABASE_URL` com a string de conexão do banco de dados PostgreSQL onde o sistema irá armazenar os dados. Caso não defina a variável, o sistema irá tentar se conectar ao banco de dados usando a string de conexão padrão `postgresql://dev:dev@localhost:5432/sistema_estoque_c`. As tabelas necessárias serão criadas para a execução do sistema.
 
 Com o programa compilado será gerado um arquivo `sistema-de-estoque` que você pode executar para iniciar o sistema.
+
+## CI/CD
+
+O projeto possui um workflow de CI/CD no GitHub Actions em `.github/workflows/build.yml`.
+
+O pipeline é acionado em:
+
+- `push` na branch `main`
+- `pull_request` para a branch `main`
+- `push` de tags no padrão `v*` (ex.: `v1.0.0`)
+
+Etapas executadas:
+
+- Build no Linux (`ubuntu-latest`) com `gcc`, `make` e `libpq-dev`
+- Build no Windows (`windows-latest` com MSYS2)
+- Upload dos artefatos:
+	- `sistema-estoque-linux` (`sistema-de-estoque`)
+	- `sistema-estoque-windows` (`sistema-de-estoque.exe`)
+
+Quando uma tag `v*` é publicada, o job de release cria automaticamente uma Release no GitHub e anexa os executáveis Linux e Windows.
 
 ## Funcionalidades Futuras
 
