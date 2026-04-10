@@ -1,0 +1,102 @@
+[
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-fexec-charset=UTF-8",
+      "-g",
+      "-I/usr/include/postgresql",
+      "-std=c23",
+      "-c",
+      "-o",
+      "build/postgres-storage.o",
+      "src/postgres-storage.c"
+    ],
+    "directory": "/home/gondra/dev/project/sistema-estoque-c",
+    "file": "/home/gondra/dev/project/sistema-estoque-c/src/postgres-storage.c",
+    "output": "/home/gondra/dev/project/sistema-estoque-c/build/postgres-storage.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-fexec-charset=UTF-8",
+      "-g",
+      "-I/usr/include/postgresql",
+      "-std=c23",
+      "-c",
+      "-o",
+      "build/main.o",
+      "src/main.c"
+    ],
+    "directory": "/home/gondra/dev/project/sistema-estoque-c",
+    "file": "/home/gondra/dev/project/sistema-estoque-c/src/main.c",
+    "output": "/home/gondra/dev/project/sistema-estoque-c/build/main.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-fexec-charset=UTF-8",
+      "-g",
+      "-I/usr/include/postgresql",
+      "-std=c23",
+      "-c",
+      "-o",
+      "build/product.o",
+      "src/product.c"
+    ],
+    "directory": "/home/gondra/dev/project/sistema-estoque-c",
+    "file": "/home/gondra/dev/project/sistema-estoque-c/src/product.c",
+    "output": "/home/gondra/dev/project/sistema-estoque-c/build/product.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-fexec-charset=UTF-8",
+      "-g",
+      "-I/usr/include/postgresql",
+      "-std=c23",
+      "-c",
+      "-o",
+      "build/terminal-ui.o",
+      "src/terminal-ui.c"
+    ],
+    "directory": "/home/gondra/dev/project/sistema-estoque-c",
+    "file": "/home/gondra/dev/project/sistema-estoque-c/src/terminal-ui.c",
+    "output": "/home/gondra/dev/project/sistema-estoque-c/build/terminal-ui.o"
+  },
+  {
+    "arguments": [
+      "/usr/bin/gcc",
+      "-Wall",
+      "-Wextra",
+      "-Werror",
+      "-Iinclude",
+      "-fexec-charset=UTF-8",
+      "-g",
+      "-I/usr/include/postgresql",
+      "-std=c23",
+      "-c",
+      "-o",
+      "build/utils.o",
+      "src/utils.c"
+    ],
+    "directory": "/home/gondra/dev/project/sistema-estoque-c",
+    "file": "/home/gondra/dev/project/sistema-estoque-c/src/utils.c",
+    "output": "/home/gondra/dev/project/sistema-estoque-c/build/utils.o"
+  }
+]
