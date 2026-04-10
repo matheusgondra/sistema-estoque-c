@@ -16,6 +16,11 @@ void pause_ui()
 {
 	system("pause");
 }
+
+void config_output()
+{
+	SetConsoleOutputCP(CP_UTF8);
+}
 #else
 #include <unistd.h>
 
@@ -29,13 +34,15 @@ void pause_ui()
 	printf("Pressione Enter para continuar...");
 	getchar();
 }
-#endif
 
 void config_output()
 {
 	// setlocale(LC_ALL, "");
 	// setlocale(LC_NUMERIC, "C");
 }
+#endif
+
+
 
 void get_input(char *input, int size)
 {

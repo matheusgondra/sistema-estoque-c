@@ -42,6 +42,31 @@ static bool regex_match(const char *string, const char *pattern) {
     return match;
 }
 
+bool stg_init() {
+    PGconn *conn = PQconnectdb(get_connect_url());
+    if (!check_connection(conn)) {
+        PQfinish(conn);
+        return false;
+    }
+
+    const char *create_table_sql = "CREATE TABLE IF NOT EXISTS products ( "
+                                    "id SERIAL PRIMARY KEY,"
+                                    "name VARCHAR(255) NOT NULL, "
+                                    "unit VARCHAR(50) NOT NULL, "
+                                    "address VARCHAR(255) NOT NULL, "
+                                    "quantity DECIMAL(10, 2) NOT NULL, "
+                                    "created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP "
+                                ");";
+    PGresult *result = PQexec(conn, create_table_sql);
+    if (PQresultStatus(result) != PGRES_COMMAND_OK) {
+        fprintf(stderr, "Erro ao criar tabela: %s\n", PQerrorMessage(conn));
+        finish_query(result, conn);
+        return false;
+    }
+
+    return true;
+}
+
 bool stg_save_product(Product *product) {
     PGconn *conn = PQconnectdb(get_connect_url());
     if (!check_connection(conn)) {

@@ -24,6 +24,10 @@ void product_exit();
 int main()
 {
 	config_output();
+	bool result = stg_init();
+	if (!result) {
+		return EXIT_FAILURE;
+	}
 
 	int option = -1;
 

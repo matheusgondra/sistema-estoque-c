@@ -5,6 +5,7 @@
 #include "product.h"
 #include "utils.h"
 
+bool stg_init();
 bool stg_save_product(Product *product);
 bool stg_load_products(ProductList *list);
 bool stg_find_product(Product *product, int id);

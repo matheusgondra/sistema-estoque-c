@@ -1,0 +1,90 @@
+name: CI/CD Build e Release
+
+on:
+  push:
+    branches: [ "main", "develop" ]
+    tags:
+      - 'v*'
+  pull_request:
+    branches: [ "main" ]
+
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
+permissions:
+  contents: write
+
+jobs:
+  build-linux:
+    name: Build no Linux (Ubuntu)
+    runs-on: ubuntu-latest
+    
+    steps:
+    - name: Clonar o repositório
+      uses: actions/checkout@v4
+      
+    - name: Instalar dependências (GCC, Make, Libpq)
+      run: |
+        sudo apt-get update
+        sudo apt-get install -y build-essential libpq-dev
+        
+    - name: Compilar o projeto
+      run: make
+
+    - name: Salvar Artefato (Linux)
+      uses: actions/upload-artifact@v4
+      with:
+        name: sistema-estoque-linux
+        path: sistema-de-estoque
+
+  build-windows:
+    name: Build no Windows (MSYS2)
+    runs-on: windows-latest
+    defaults:
+      run:
+        shell: msys2 {0}
+        
+    steps:
+    - name: Clonar o repositório
+      uses: actions/checkout@v4
+
+    - name: Configurar MSYS2 e dependências
+      uses: msys2/setup-msys2@v2
+      with:
+        msystem: MINGW64
+        update: true
+        # Instala apenas os pacotes leves e necessários
+        install: >-
+          mingw-w64-x86_64-gcc
+          make
+          mingw-w64-x86_64-postgresql
+
+    - name: Compilar o projeto
+      run: make
+
+    - name: Salvar Artefato (Windows)
+      uses: actions/upload-artifact@v4
+      with:
+        name: sistema-estoque-windows
+        path: sistema-de-estoque.exe
+  
+  release:
+    name: Publicar Release
+    needs: [build-linux, build-windows]
+    runs-on: ubuntu-latest
+    if: startsWith(github.ref, 'refs/tags/')
+    
+    steps:
+    - name: Baixar todos os artefatos
+      uses: actions/download-artifact@v4
+      with:
+        path: executaveis
+        merge-multiple: true
+
+    - name: Criar Release e Fazer Upload dos Arquivos
+      uses: softprops/action-gh-release@v2
+      with:
+        files: |
+          executaveis/sistema-de-estoque
+          executaveis/sistema-de-estoque.exe
+        generate_release_notes: true
