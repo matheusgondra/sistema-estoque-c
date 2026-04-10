@@ -26,6 +26,9 @@ jobs:
     - name: Instalar dependências (GCC 15, Make, Libpq)
       run: |
         sudo apt-get update
+        sudo apt-get install -y software-properties-common
+        sudo add-apt-repository -y ppa:ubuntu-toolchain-r/test
+        sudo apt-get update
         sudo apt-get install -y gcc-15 make libpq-dev
         
     - name: Compilar o projeto
