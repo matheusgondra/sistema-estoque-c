@@ -2,7 +2,7 @@ name: CI/CD Build e Release
 
 on:
   push:
-    branches: [ "main", "develop" ]
+    branches: [ "main" ]
     tags:
       - 'v*'
   pull_request:
