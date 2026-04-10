@@ -24,8 +24,10 @@ else
     MKDIR = mkdir -p
 endif
 
+CVERSION = c23
+
 # Flags de compilação
-CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8 -g $(PG_CFLAGS)
+CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8 -g $(PG_CFLAGS) -std=$(CVERSION)
 
 # Nome do executável final
 TARGET = sistema-de-estoque
