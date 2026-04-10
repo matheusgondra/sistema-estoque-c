@@ -27,7 +27,8 @@ endif
 CVERSION = c23
 
 # Flags de compilação
-CFLAGS = -Wall -Wextra -Werror -Iinclude -fexec-charset=UTF-8 -g $(PG_CFLAGS) -std=$(CVERSION)
+CFLAGS = -Wall -Wextra -Werror -ffunction-sections -fdata-sections -Wunused-function -Iinclude -fexec-charset=UTF-8 -g $(PG_CFLAGS) -std=$(CVERSION)
+LDFLAGS = -Wl,--gc-sections -Wl,--print-gc-sections
 
 # Nome do executável final
 TARGET = sistema-de-estoque
@@ -41,7 +42,7 @@ OBJ = $(SRC:src/%.c=build/%.o)
 all: $(TARGET)
 
 $(TARGET): $(OBJ)
-	$(CC) $(OBJ) $(PG_LIBS) -o $@
+	$(CC) $(OBJ) $(PG_LIBS) $(LDFLAGS) -o $@
 
 build/%.o: src/%.c
 	$(MKDIR) build

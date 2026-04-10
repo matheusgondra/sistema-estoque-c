@@ -2,7 +2,7 @@
 #define PRODUCT_H
 
 #include <stdbool.h>
-#include "utils.h"
+#include <stddef.h>
 
 typedef struct product
 {
@@ -23,10 +23,7 @@ typedef struct product_list
 void create_product(Product *product, char *name, char *unit, char *address);
 void create_product_with_id(Product *product, int id, char *name, char *unit, char *address);
 bool check_product(Product *product);
-void free_product(Product *product);
-void free_products(Product **products);
 bool put_product_quantity(Product *product, float quantity);
-bool products_is_empty(Product **products);
 
 void create_product_list(ProductList *list);
 void free_product_list(ProductList *list);

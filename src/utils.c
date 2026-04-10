@@ -1,7 +1,6 @@
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
-#include <locale.h>
 #include <ctype.h>
 #include "utils.h"
 
@@ -24,22 +23,17 @@ void config_output()
 #else
 #include <unistd.h>
 
-void timeout(int milliseconds)
+void timeout(int miliseconds)
 {
-	usleep(milliseconds * 1000);
+	sleep(miliseconds / 1000);
 }
 
-void pause_ui()
-{
+void pause_ui() {
 	printf("Pressione Enter para continuar...");
 	getchar();
 }
 
-void config_output()
-{
-	// setlocale(LC_ALL, "");
-	// setlocale(LC_NUMERIC, "C");
-}
+void config_output() {}
 #endif
 
 

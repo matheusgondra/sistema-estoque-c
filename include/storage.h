@@ -3,7 +3,6 @@
 
 #include <stdbool.h>
 #include "product.h"
-#include "utils.h"
 
 bool stg_init();
 bool stg_save_product(Product *product);
