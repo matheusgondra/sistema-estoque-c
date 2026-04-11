@@ -1,7 +1,6 @@
 #ifndef STORAGE_H
 #define STORAGE_H
 
-#include <stdbool.h>
 #include "product.h"
 
 bool stg_init();
