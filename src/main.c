@@ -2,7 +2,9 @@
 #include "storage.h"
 #include "ui.h"
 #include "utils.h"
+#include <inttypes.h>
 #include <signal.h>
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 
@@ -41,10 +43,12 @@ int main() {
   signal(SIGINT, handle_signal);
   signal(SIGTERM, handle_signal);
 
-  int option = -1;
+  uint8_t option = UINT8_MAX;
 
   showMenu();
-  scanf("%d", &option);
+  printf("\nValor de option: %" PRIu8 "\n", option);
+  printf("Tamanho de option: %zu\n", sizeof(option));
+  scanf("%" SCNu8, &option);
   clear_input_buffer();
 
   while (option != 0) {
@@ -70,8 +74,8 @@ int main() {
     }
 
     showMenu();
-    option = -1;
-    scanf("%d", &option);
+    option = UINT8_MAX;
+    scanf("%" SCNu8, &option);
     clear_input_buffer();
   }
 
@@ -87,9 +91,11 @@ void handle_signal(int signal) {
 }
 
 void register_product() {
-  Product product = {0};
+  Product product = {};
   bool result = false;
-  char name[256], unit[10], address[50];
+  char name[256] = {};
+  char unit[10] = {};
+  char address[50] = {};
 
   printf("Digite o nome do produto: ");
   get_input(name, sizeof(name));
@@ -142,13 +148,13 @@ void register_product() {
 }
 
 void product_entry() {
-  Product product = {0};
+  Product product = {};
   bool result = false;
-  int id = -1;
+  uint64_t id = 0;
   float qtd = -1;
 
   printf("Digite o id do produto:\n");
-  scanf("%d", &id);
+  scanf("%" PRIu64, &id);
   clear_input_buffer();
 
   result = stg_find_product(&product, id);
@@ -195,13 +201,13 @@ void product_entry() {
 }
 
 void product_exit() {
-  Product product = {0};
+  Product product = {};
   bool result = false;
-  int id = -1;
+  uint64_t id = 0;
   float qtd = -1;
 
   printf("Digite o id do produto:\n");
-  scanf("%d", &id);
+  scanf("%" PRIu64, &id);
   clear_input_buffer();
 
   result = stg_find_product(&product, id);
@@ -238,7 +244,7 @@ void product_exit() {
 }
 
 void load_products() {
-  ProductList list = {0};
+  ProductList list = {};
   create_product_list(&list);
 
   bool result = stg_load_products(&list);
@@ -257,8 +263,8 @@ void load_products() {
 }
 
 void search_product() {
-  char name[256];
-  ProductList product_list = {0};
+  char name[256] = {};
+  ProductList product_list = {};
   create_product_list(&product_list);
 
   printf("Digite o produto que deseja buscar:\n");
