@@ -142,7 +142,7 @@ bool stg_find_product(Product *product, uint64_t id) {
     return false;
   }
 
-  char id_str[12];
+  char id_str[20] = {};
   int_to_str(id, id_str, sizeof(id_str));
 
   const char *query =
@@ -181,7 +181,7 @@ bool stg_update_product_quantity(Product *product) {
     return false;
   }
 
-  char id_str[12];
+  char id_str[20] = {};
   int_to_str(product->id, id_str, sizeof(id_str));
 
   char quantity_str[50];

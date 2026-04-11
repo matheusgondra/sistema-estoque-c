@@ -1,9 +1,11 @@
-#include <stddef.h>
-#include <stdio.h>
-#include <string.h>
-#include <stdlib.h>
-#include <ctype.h>
 #include "utils.h"
+#include <ctype.h>
+#include <stddef.h>
+#include <stdint.h>
+#include <stdio.h>
+#include <stdlib.h>
+#include <string.h>
+#include <inttypes.h>
 
 #ifdef _WIN32
 #include <windows.h>
@@ -81,8 +83,8 @@ void clear_input_buffer()
 	while ((c = getchar()) != '\n' && c != EOF) {}
 }
 
-void int_to_str(int value, char *str, size_t size) {
-	snprintf(str, size, "%d", value);
+void int_to_str(uint64_t value, char *str, size_t size) {
+	snprintf(str, size, "%" PRIu64, value);
 }
 
 void float_to_str(float value, char *str, size_t size) {
