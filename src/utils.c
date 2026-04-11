@@ -54,7 +54,7 @@ char *to_lower(const char *str)
 {
 	size_t len = strlen(str);
 	char *lower_str = (char *)malloc((len + 1) * sizeof(char));
-	if (lower_str == NULL)
+	if (lower_str == nullptr)
 	{
 		fprintf(stderr, "Erro ao alocar memória\n");
 		exit(EXIT_FAILURE);

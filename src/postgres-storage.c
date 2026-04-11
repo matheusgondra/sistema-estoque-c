@@ -9,7 +9,7 @@ typedef enum pq_result_type { TEXT, BINARY } PGResultType;
 
 static const char *get_connect_url() {
   char *url = getenv("DATABASE_URL");
-  if (url == NULL) {
+  if (url == nullptr) {
     url = "postgres://dev:dev@localhost:5432/sistema_estoque_c";
   }
 
@@ -33,7 +33,7 @@ static void finish_query(PGresult *result, PGconn *conn) {
 static bool regex_match(const char *string, const char *pattern) {
   bool match = false;
 
-  if (strstr(string, pattern) != NULL) {
+  if (strstr(string, pattern) != nullptr) {
     match = true;
   }
 
@@ -83,7 +83,7 @@ bool stg_save_product(Product *product) {
                                 quantity_str};
 
   PGresult *resultQuery =
-      PQexecParams(conn, query, 4, NULL, paramValues, NULL, NULL, TEXT);
+      PQexecParams(conn, query, 4, nullptr, paramValues, nullptr, nullptr, TEXT);
   if (PQresultStatus(resultQuery) != PGRES_TUPLES_OK) {
     printf("Falha na query\n %s", PQerrorMessage(conn));
     printf("Detalhes: %s\n", PQresultErrorMessage(resultQuery));
@@ -150,7 +150,7 @@ bool stg_find_product(Product *product, int id) {
   const char *paramValues[1] = {id_str};
 
   PGresult *result =
-      PQexecParams(conn, query, 1, NULL, paramValues, NULL, NULL, TEXT);
+      PQexecParams(conn, query, 1, nullptr, paramValues, nullptr, nullptr, TEXT);
   if (PQresultStatus(result) != PGRES_TUPLES_OK) {
     fprintf(stderr, "Erro ao buscar produto: %s\n", PQerrorMessage(conn));
     finish_query(result, conn);
@@ -191,7 +191,7 @@ bool stg_update_product_quantity(Product *product) {
   const char *paramValues[2] = {quantity_str, id_str};
 
   PGresult *result =
-      PQexecParams(conn, query, 2, NULL, paramValues, NULL, NULL, TEXT);
+      PQexecParams(conn, query, 2, nullptr, paramValues, nullptr, nullptr, TEXT);
   if (PQresultStatus(result) != PGRES_COMMAND_OK) {
     fprintf(stderr, "Erro ao atualizar produto: %s\n", PQerrorMessage(conn));
     finish_query(result, conn);

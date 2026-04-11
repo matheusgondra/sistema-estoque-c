@@ -22,7 +22,7 @@ void create_product_with_id(Product *product, int id, char *name, char *unit,
 }
 
 bool check_product(Product *product) {
-  if (product == NULL) {
+  if (product == nullptr) {
     return false;
   }
 
@@ -49,7 +49,7 @@ bool put_product_quantity(Product *product, float quantity) {
 void create_product_list(ProductList *list) {
   const int initial_capacity = 20;
   list->items = (Product *)malloc(initial_capacity * sizeof(Product));
-  if (list->items == NULL) {
+  if (list->items == nullptr) {
     fprintf(stderr, "Failed to allocate memory for product list.\n");
     exit(EXIT_FAILURE);
   }
@@ -59,8 +59,8 @@ void create_product_list(ProductList *list) {
 }
 
 void free_product_list(ProductList *list) {
-  if (list != NULL) {
-    if (list->items != NULL) {
+  if (list != nullptr) {
+    if (list->items != nullptr) {
       free(list->items);
     }
   }
@@ -74,7 +74,7 @@ bool add_product_to_list(ProductList *list, Product *product) {
     size_t new_capacity = list->capacity * 2;
     Product *new_items =
         (Product *)realloc(list->items, new_capacity * sizeof(Product));
-    if (new_items == NULL) {
+    if (new_items == nullptr) {
       fprintf(stderr, "Failed to reallocate memory for product list.\n");
       return false;
     }

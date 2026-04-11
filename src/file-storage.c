@@ -9,7 +9,7 @@
 
 bool stg_save_product(Product *product) {
   FILE *file = fopen("products.csv", "a+");
-  if (file == NULL) {
+  if (file == nullptr) {
     return false;
   }
 
@@ -21,7 +21,7 @@ bool stg_save_product(Product *product) {
 
 bool stg_load_products(ProductList *list) {
   FILE *file = fopen("products.csv", "r");
-  if (file == NULL) {
+  if (file == nullptr) {
     fprintf(stderr, "Failed to open products.csv");
     return false;
   }
@@ -31,7 +31,7 @@ bool stg_load_products(ProductList *list) {
 
   while (fgets(line, sizeof(line), file)) {
     Product *product = (Product *)malloc(sizeof(Product));
-    if (product == NULL) {
+    if (product == nullptr) {
       fprintf(stderr, "Failed to alloc product. Error code: %d, Message: %s",
               errno, strerror(errno));
       fclose(file);
@@ -102,12 +102,12 @@ bool stg_find_product_by_name(Product *product, const char *name) {
 
 bool stg_update_product_quantity(Product *product) {
   FILE *file = fopen("products.csv", "r");
-  if (file == NULL) {
+  if (file == nullptr) {
     return false;
   }
 
   FILE *temp = fopen("temp.csv", "w");
-  if (temp == NULL) {
+  if (temp == nullptr) {
     fclose(file);
     return false;
   }
@@ -164,10 +164,10 @@ bool stg_find_products_by_regex(ProductList *list, const char *regex) {
     regex_lower = to_lower(regex);
     sprintf(id, "%d", product->id);
 
-    bool name_matched = strstr(name, regex_lower) != NULL;
-    bool unit_matched = strstr(unit, regex_lower) != NULL;
-    bool address_matched = strstr(address, regex_lower) != NULL;
-    bool id_matched = strstr(id, regex_lower) != NULL;
+    bool name_matched = strstr(name, regex_lower) != nullptr;
+    bool unit_matched = strstr(unit, regex_lower) != nullptr;
+    bool address_matched = strstr(address, regex_lower) != nullptr;
+    bool id_matched = strstr(id, regex_lower) != nullptr;
 
     bool matched =
         name_matched || unit_matched || address_matched || id_matched;
