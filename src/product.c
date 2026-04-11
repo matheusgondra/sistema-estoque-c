@@ -1,4 +1,5 @@
 #include "product.h"
+#include <stdint.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
@@ -11,7 +12,7 @@ void create_product(Product *product, char *name, char *unit, char *address) {
   product->quantity = 0;
 }
 
-void create_product_with_id(Product *product, int id, char *name, char *unit,
+void create_product_with_id(Product *product, uint64_t id, char *name, char *unit,
                             char *address) {
   product->id = id;
   strcpy(product->name, name);

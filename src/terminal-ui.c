@@ -1,20 +1,15 @@
+#include "product.h"
+#include "ui.h"
+#include <inttypes.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
-#include "ui.h"
-#include "product.h"
 
 #ifdef _WIN32
-void clear_terminal() {
-	system("cls");
-}
+void clear_terminal() { system("cls"); }
 #else
-
-void clear_terminal() {
-	system("clear");
-}
+void clear_terminal() { system("clear"); }
 #endif
-
 
 void showMenu() {
 	clear_terminal();
@@ -42,7 +37,7 @@ void showProducts(const ProductList *list) {
     for (size_t i = 0; i < list->size; i++) {
         Product *p = &list->items[i];
         
-        printf("│ %-4d │ %-20.20s │ %-8.8s │ %-8.8s │ %10.2f │\n", 
+        printf("│ %-4" PRIu64 " │ %-20.20s │ %-8.8s │ %-8.8s │ %10.2f │\n", 
                p->id, 
                p->name, 
                p->unit, 
@@ -57,7 +52,7 @@ void showProduct(const Product *product) {
 	printf("┌──────────────────────────────┐\n");
 	printf("│      DETALHES DO PRODUTO     │\n");
 	printf("├──────────────────────────────┤\n");
-	printf("│ ID:         %-16d │\n", product->id);
+	printf("│ ID:         %-16" PRIu64 " │\n", product->id);
 	printf("│ NOME:       %-16.16s │\n", product->name);
 	printf("│ UNIDADE:    %-16.16s │\n", product->unit);
 	printf("│ ENDEREÇO:   %-16.16s │\n", product->address);

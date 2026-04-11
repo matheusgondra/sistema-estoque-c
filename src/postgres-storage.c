@@ -1,6 +1,7 @@
 #include "storage.h"
 #include "utils.h"
 #include <libpq-fe.h>
+#include <stdint.h>
 #include <stdlib.h>
 #include <string.h>
 
@@ -134,7 +135,7 @@ bool stg_load_products(ProductList *list) {
   return true;
 }
 
-bool stg_find_product(Product *product, int id) {
+bool stg_find_product(Product *product, uint64_t id) {
   PGconn *conn = PQconnectdb(get_connect_url());
   if (!check_connection(conn)) {
     PQfinish(conn);

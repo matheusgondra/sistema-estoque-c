@@ -1,3 +1,4 @@
+#include <stddef.h>
 #include <stdio.h>
 #include <string.h>
 #include <stdlib.h>
@@ -38,7 +39,7 @@ void config_output() {}
 
 
 
-void get_input(char *input, int size)
+void get_input(char *input, size_t size)
 {
 	fgets(input, size, stdin);
 	

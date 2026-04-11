@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <string.h>
+#include <inttypes.h>
 
 bool stg_save_product(Product *product) {
   FILE *file = fopen("products.csv", "a+");
@@ -12,7 +13,7 @@ bool stg_save_product(Product *product) {
     return false;
   }
 
-  fprintf(file, "%d,%s,%s,%s,%.2f\n", product->id, product->name, product->unit,
+  fprintf(file, "%" PRIu64 ",%s,%s,%s,%.2f\n", product->id, product->name, product->unit,
           product->address, 0.0);
   fclose(file);
   return true;
@@ -37,7 +38,7 @@ bool stg_load_products(ProductList *list) {
       return false;
     }
 
-    sscanf(line, "%d,%49[^,],%49[^,],%49[^,],%f\n", &product->id, product->name,
+    sscanf(line, "%" SCNu64 ",%49[^,],%49[^,],%49[^,],%f\n", &product->id, product->name,
            product->unit, product->address, &product->quantity);
 
     result = add_product_to_list(list, product);
@@ -53,7 +54,7 @@ bool stg_load_products(ProductList *list) {
   return true;
 }
 
-bool stg_find_product(Product *product, int id) {
+bool stg_find_product(Product *product, uint64_t id) {
   ProductList list = {0};
   create_product_list(&list);
   bool result = stg_load_products(&list);
@@ -112,17 +113,17 @@ bool stg_update_product_quantity(Product *product) {
   }
 
   char line[256];
-  int current_id;
+  uint64_t current_id;
   bool found = false;
 
   while (fgets(line, sizeof(line), file)) {
-    if (sscanf(line, "%d,", &current_id) != 1) {
+    if (sscanf(line, "%" SCNu64 ",", &current_id) != 1) {
       fputs(line, temp);
       continue;
     }
 
     if (current_id == product->id) {
-      fprintf(temp, "%d,%s,%s,%s,%.2f\n", product->id, product->name,
+      fprintf(temp, "%" PRIu64 ",%s,%s,%s,%.2f\n", product->id, product->name,
               product->unit, product->address, product->quantity);
       found = true;
     } else {
@@ -161,7 +162,7 @@ bool stg_find_products_by_regex(ProductList *list, const char *regex) {
     unit = to_lower(product->unit);
     address = to_lower(product->address);
     regex_lower = to_lower(regex);
-    sprintf(id, "%d", product->id);
+    sprintf(id, "%" PRIu64, product->id);
 
     bool name_matched = strstr(name, regex_lower) != nullptr;
     bool unit_matched = strstr(unit, regex_lower) != nullptr;

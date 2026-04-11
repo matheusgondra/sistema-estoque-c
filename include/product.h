@@ -2,13 +2,14 @@
 #define PRODUCT_H
 
 #include <stddef.h>
+#include <stdint.h>
 
 typedef struct product
 {
-	int id;
-	char name[100];
-	char unit[10];
-	char address[50];
+	uint64_t id;
+	char name[101];
+	char unit[11];
+	char address[51];
 	float quantity;
 } Product;
 
@@ -20,7 +21,7 @@ typedef struct product_list
 } ProductList;
 
 void create_product(Product *product, char *name, char *unit, char *address);
-void create_product_with_id(Product *product, int id, char *name, char *unit, char *address);
+void create_product_with_id(Product *product, uint64_t id, char *name, char *unit, char *address);
 bool check_product(Product *product);
 bool put_product_quantity(Product *product, float quantity);
 

@@ -94,8 +94,8 @@ void register_product() {
   Product product = {};
   bool result = false;
   char name[256] = {};
-  char unit[10] = {};
-  char address[50] = {};
+  char unit[11] = {};
+  char address[51] = {};
 
   printf("Digite o nome do produto: ");
   get_input(name, sizeof(name));
