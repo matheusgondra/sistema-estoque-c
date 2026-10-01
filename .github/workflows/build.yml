@@ -2,11 +2,11 @@ name: CI/CD Build e Release
 
 on:
   push:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
     tags:
       - 'v*'
   pull_request:
-    branches: [ "main" ]
+    branches: [ "main", "develop" ]
 
 env:
   FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
@@ -18,55 +18,64 @@ jobs:
   build-linux:
     name: Build no Linux (Ubuntu)
     runs-on: ubuntu-latest
-    
+
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
     steps:
     - name: Clonar o repositório
       uses: actions/checkout@v4
-      
-    - name: Instalar dependências (GCC 14, Make, Libpq)
+
+    - name: Instalar dependências de build
       run: |
         sudo apt-get update
-        sudo apt-get install -y gcc-14 make libpq-dev
-        
+        sudo apt-get install -y gcc-14 cmake ninja-build
+
+    - name: Configurar vcpkg
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git "$VCPKG_ROOT"
+        "$VCPKG_ROOT/bootstrap-vcpkg.sh" -disableMetrics
+
+    - name: Configurar o CMake
+      run: cmake --preset default
+
     - name: Compilar o projeto
-      run: make CC=gcc-14
+      run: cmake --build --preset default --parallel
 
     - name: Salvar Artefato (Linux)
       uses: actions/upload-artifact@v4
       with:
         name: sistema-estoque-linux
-        path: sistema-de-estoque
+        path: build/sitema-estoque-c
 
   build-windows:
-    name: Build no Windows (MSYS2)
+    name: Build no Windows
     runs-on: windows-latest
-    defaults:
-      run:
-        shell: msys2 {0}
-        
+
+    env:
+      VCPKG_ROOT: ${{ github.workspace }}/vcpkg
+
     steps:
     - name: Clonar o repositório
       uses: actions/checkout@v4
 
-    - name: Configurar MSYS2 e dependências
-      uses: msys2/setup-msys2@v2
-      with:
-        msystem: MINGW64
-        update: true
-        # Instala apenas os pacotes leves e necessários
-        install: >-
-          mingw-w64-x86_64-gcc
-          make
-          mingw-w64-x86_64-postgresql
+    - name: Configurar vcpkg
+      shell: pwsh
+      run: |
+        git clone https://github.com/microsoft/vcpkg.git $env:VCPKG_ROOT
+        & "$env:VCPKG_ROOT\bootstrap-vcpkg.bat" -disableMetrics
 
-    - name: Compilar o projeto
-      run: make
+    - name: Configurar e compilar o projeto
+      shell: pwsh
+      run: |
+        cmake --preset default
+        cmake --build --preset default --parallel
 
     - name: Salvar Artefato (Windows)
       uses: actions/upload-artifact@v4
       with:
         name: sistema-estoque-windows
-        path: sistema-de-estoque.exe
+        path: build/sitema-estoque-c.exe
   
   release:
     name: Publicar Release
@@ -85,6 +94,6 @@ jobs:
       uses: softprops/action-gh-release@v2
       with:
         files: |
-          executaveis/sistema-de-estoque
-          executaveis/sistema-de-estoque.exe
+          executaveis/sitema-estoque-c
+          executaveis/sitema-estoque-c.exe
         generate_release_notes: true

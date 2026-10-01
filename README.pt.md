@@ -40,17 +40,18 @@ Na pasta `src` estão os arquivos de código fonte do projeto, que implementam a
 
 ## Compilação
 
-O `makefile` pode ser executado para compilar o projeto. Para isso é apenas necessário ter instalado o compilador **GCC** e o utilitário **make**.
+O projeto utiliza CMake e vcpkg para configurar e compilar a aplicação. Certifique-se de que a variável de ambiente `VCPKG_ROOT` aponta para a instalação do vcpkg e execute:
 
 ```bash
-make
+cmake --preset default
+cmake --build --preset default
 ```
 
 ## Execução
 
 Crie a variável de ambiente `DATABASE_URL` com a string de conexão do banco de dados PostgreSQL onde o sistema irá armazenar os dados. Caso não defina a variável, o sistema irá tentar se conectar ao banco de dados usando a string de conexão padrão `postgresql://dev:dev@localhost:5432/sistema_estoque_c`. As tabelas necessárias serão criadas para a execução do sistema.
 
-Com o programa compilado será gerado um arquivo `sistema-de-estoque` que você pode executar para iniciar o sistema.
+Com o programa compilado será gerado o executável `build/sitema-estoque-c`, que você pode executar para iniciar o sistema.
 
 ## CI/CD
 
@@ -64,8 +65,8 @@ O pipeline é acionado em:
 
 Etapas executadas:
 
-- Build no Linux (`ubuntu-latest`) com `gcc`, `make` e `libpq-dev`
-- Build no Windows (`windows-latest` com MSYS2)
+- Build no Linux (`ubuntu-latest`) com CMake, Ninja, GCC e vcpkg
+- Build no Windows (`windows-latest`) com CMake e vcpkg
 - Upload dos artefatos:
 	- `sistema-estoque-linux` (`sistema-de-estoque`)
 	- `sistema-estoque-windows` (`sistema-de-estoque.exe`)

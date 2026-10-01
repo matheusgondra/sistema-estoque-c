@@ -40,17 +40,18 @@ The `src` folder contains the project's source code files, which implement the f
 
 ## Compilation
 
-The `makefile` can be executed to compile the project. To do this, you only need to have the **GCC** compiler and the **make** utility installed.
+The project uses CMake and vcpkg to configure and compile the application. Make sure the `VCPKG_ROOT` environment variable points to your vcpkg installation, then run:
 
 ```bash
-make
+cmake --preset default
+cmake --build --preset default
 ```
 
 ## Execution
 
 Create the `DATABASE_URL` environment variable with the PostgreSQL database connection string where the system will store its data. If you do not define this variable, the system will attempt to connect to the database using the default connection string `postgresql://dev:dev@localhost:5432/sistema_estoque_c`. The necessary tables will be created automatically when the system runs.
 
-Once the program is compiled, a `sistema-de-estoque` executable file will be generated, which you can run to start the system.
+Once the program is compiled, the `build/sitema-estoque-c` executable file will be generated, which you can run to start the system.
 
 ## CI/CD
 
@@ -64,8 +65,8 @@ The pipeline runs on:
 
 Executed steps:
 
-- Linux build (`ubuntu-latest`) with `gcc`, `make`, and `libpq-dev`
-- Windows build (`windows-latest` with MSYS2)
+- Linux build (`ubuntu-latest`) with CMake, Ninja, GCC, and vcpkg
+- Windows build (`windows-latest`) with CMake and vcpkg
 - Artifact upload:
 	- `sistema-estoque-linux` (`sistema-de-estoque`)
 	- `sistema-estoque-windows` (`sistema-de-estoque.exe`)
