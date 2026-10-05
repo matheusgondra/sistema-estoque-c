@@ -46,8 +46,6 @@ int main() {
   uint8_t option = UINT8_MAX;
 
   showMenu();
-  printf("\nValor de option: %" PRIu8 "\n", option);
-  printf("Tamanho de option: %zu\n", sizeof(option));
   scanf("%" SCNu8, &option);
   clear_input_buffer();
 
